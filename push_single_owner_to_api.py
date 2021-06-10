@@ -4,27 +4,18 @@ import configparser
 import requests
 import datetime
 import time
+import sys
+sys.path.append("./helpers")
 
-cx_Oracle.init_oracle_client(
-    lib_dir=os.environ.get("HOME")+"/instantclient_19_8")
-parser = configparser.ConfigParser()
-parser.read('./config/config.ini')
-api_url_owner = parser.get('DEVELOPMENT', 'api_url') + "/person"
+import config_helper  # noqa
+import legacy_database_helper  # noqa
 
-
-def _getDBConnection():
-    conn = cx_Oracle.connect(
-        user="system",
-        password="oracle",
-        dsn="ec2-18-132-41-196.eu-west-2.compute.amazonaws.com")
-    # Set to desired Oracle schema
-    conn.current_schema = 'CERSSVD_SCHEMA'
-    print("Successfully connected to Oracle Database")
-    return conn
+api_url_owner = config_helper.get_config_parser().get(
+    "DEVELOPMENT", "api_url") + '/person'
 
 
 def _postOwner():
-    conn = _getDBConnection()
+    conn = legacy_database_helper.get_db_connection()
     cursor = conn.cursor()
     query = cursor.execute("""
     select * from BEACON_OWNERS where PK_BEACON_OWNER_ID = 24748
