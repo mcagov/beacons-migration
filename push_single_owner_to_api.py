@@ -1,6 +1,3 @@
-import os
-import cx_Oracle
-import configparser
 import requests
 import datetime
 import time
