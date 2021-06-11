@@ -1,1 +1,0 @@
-SELECT * from BEACON_OWNERS where IS_MAIN = 'N';
