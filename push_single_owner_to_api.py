@@ -15,7 +15,7 @@ def _postOwner():
     conn = legacy_database_helper.get_db_connection()
     cursor = conn.cursor()
     query = cursor.execute("""
-    select * from BEACON_OWNERS where PK_BEACON_OWNER_ID = 24748
+    select * from BEACON_OWNERS_CLEANED where PK_BEACON_OWNER_ID = 24748
         """)
     # Get one row from owner and push to test api
     rows = query.fetchmany()
