@@ -8,7 +8,7 @@ import config_helper  # noqa
 import legacy_database_helper  # noqa
 
 api_url_owner = config_helper.get_config_parser().get(
-    "LOCAL", "api_url") + '/person'
+    "LOCAL", "api_url") + '/owner'
 
 
 def _postOwner():
