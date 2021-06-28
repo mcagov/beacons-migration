@@ -1,3 +1,4 @@
+import logging
 import sys
 import re
 import csv
@@ -18,7 +19,7 @@ broken_countries = {}
 
 
 def _print_affected_rows(cursor):
-    print('Affected rows: ', cursor.rowcount)
+    logging.info('Affected rows: ', cursor.rowcount)
 
 
 def _create_clean_owners_table():
@@ -201,7 +202,7 @@ def _cleanse_owner_row(pk_beacon_owner_id, fk_beacon_id, owner_name, company_nam
     mobile_1 = _extract_by_regex(email_regex, mobile_1)
     mobile_2 = _extract_by_regex(email_regex, mobile_2)
 
-    print('valid_emails: ', valid_emails)
+    logging.info('valid_emails: ', valid_emails)
 
     valid_phone_numbers = _get_valid_phone_numbers_list_from_fields(
         email, phone_1, phone_2, mobile_1, mobile_1)
@@ -212,29 +213,29 @@ def _cleanse_owner_row(pk_beacon_owner_id, fk_beacon_id, owner_name, company_nam
     mobile_1 = _extract_by_regex(phone_regex, mobile_1)
     mobile_2 = _extract_by_regex(phone_regex, mobile_2)
 
-    print('valid_phone_numbers: ', valid_phone_numbers)
+    logging.info('valid_phone_numbers: ', valid_phone_numbers)
 
     valid_country = _get_valid_country_from_fields(
         address_1, address_2, address_3, address_4, post_code, country)
 
-    print('valid_country: ', valid_country)
+    logging.info('valid_country: ', valid_country)
 
     valid_uk_postcodes = []
     if valid_country == 'UNITED KINGDOM' or valid_country == None:
         valid_uk_postcodes = _get_valid_uk_postcode_list_from_fields(
             address_1, address_2, address_3, address_4, post_code, country)
 
-    print('valid_uk_postcodes: ', valid_uk_postcodes)
+    logging.info('valid_uk_postcodes: ', valid_uk_postcodes)
 
     uk_mobiles = _get_valid_uk_mobile_list_from_valid_phone_list(
         valid_phone_numbers)
 
-    print('uk_mobiles: ', uk_mobiles)
+    logging.info('uk_mobiles: ', uk_mobiles)
 
     other_phone_numbers = _get_valid_phone_number_list_from_valid_phone_list(
         valid_phone_numbers)
 
-    print('other_phone_numbers: ', other_phone_numbers)
+    logging.info('other_phone_numbers: ', other_phone_numbers)
 
     # Start setting new values
 
@@ -246,7 +247,7 @@ def _cleanse_owner_row(pk_beacon_owner_id, fk_beacon_id, owner_name, company_nam
     mobile_2 = _set_mobile_2(mobile_2, uk_mobiles)
     email = _set_email(email, valid_emails)
 
-    print('Proposed new values:- ', 'email: ', email, ', post_code: ', post_code, ', country: ', country, ', phone_1: ',
+    logging.info('Proposed new values:- ', 'email: ', email, ', post_code: ', post_code, ', country: ', country, ', phone_1: ',
           phone_1, ', phone_2: ', phone_2, ', mobile_1: ', mobile_1, ', mobile_2: ', mobile_2)
 
     # Insert record into DB
@@ -267,7 +268,7 @@ def _cleanse_owner_row(pk_beacon_owner_id, fk_beacon_id, owner_name, company_nam
 
 
 def _run_rules():
-    print('Running through cleansing rules')
+    logging.info('Running through cleansing rules')
 
     broken_countries = _get_broken_countries_dict()
 
@@ -292,21 +293,21 @@ def _run_rules():
 
         if owners == []:
             # No more results
-            print("No more owner records found")
+            logging.info("No more owner records found")
             break
 
-        print("Processing row count: ", len(owners))
+        logging.info("Processing row count: ", len(owners))
         for pk_beacon_owner_id, fk_beacon_id, owner_name, company_name, care_of, address_1, address_2, address_3, address_4, country, post_code, phone_1, phone_2, mobile_1, mobile_2, fax, email, is_main, create_user_id, create_dt, update_user_id, update_dt, versioning in owners:
             _cleanse_owner_row(pk_beacon_owner_id, fk_beacon_id, owner_name, company_name, care_of, address_1, address_2, address_3, address_4, country,
                                post_code, phone_1, phone_2, mobile_1, mobile_2, fax, email, is_main, create_user_id, create_dt, update_user_id, update_dt, versioning)
             i = i + 1
-            print('Processing index #: ', i)
+            logging.info('Processing index #: ', i)
 
         if i == 100:
-            print('Breaking at 100 records, TODO remove later')
+            logging.info('Breaking at 100 records, TODO remove later')
             break
 
-    print('Commiting and closing db connection')
+    logging.info('Commiting and closing db connection')
     db_connection.commit()
     cursor.close()
     db_connection.close()
