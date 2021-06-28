@@ -1,10 +1,21 @@
 import os
-import cx_Oracle
-import re
-import csv
+import sys
 
-cx_Oracle.init_oracle_client(
-    lib_dir=os.environ.get("HOME")+"/instantclient_19_8")
+import cx_Oracle
+
+try:
+    if sys.platform.startswith("darwin"):
+        print("Configuring instantclient for MacOS")
+        lib_dir = os.path.join(os.getcwd(), "instantclient_19_8")
+        cx_Oracle.init_oracle_client(lib_dir=lib_dir)
+    elif sys.platform.startswith("linux"):
+        print("Configuring instantclient for Linux distribution")
+        lib_dir = os.path.join(os.environ.get("ORACLE_HOME"), "instantclient_19_11")
+        cx_Oracle.init_oracle_client(lib_dir=lib_dir)
+except Exception as err:
+    print("Unable to instantiate Oracle instantclient")
+    print(err)
+    sys.exit(1)
 
 
 def get_db_connection():
