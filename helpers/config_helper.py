@@ -1,7 +1,4 @@
 import configparser
-import requests
-import datetime
-import time
 
 parser = configparser.ConfigParser()
 parser.read('./config/config.ini')

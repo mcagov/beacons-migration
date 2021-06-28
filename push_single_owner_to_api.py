@@ -1,18 +1,14 @@
 import requests
-import datetime
-import time
-import sys
-sys.path.append("./helpers")
 
-import config_helper  # noqa
-import legacy_database_helper  # noqa
+from helpers.config_helper import get_config_parser
+from helpers.legacy_database_helper import get_db_connection
 
-api_url_owner = config_helper.get_config_parser().get(
+api_url_owner = get_config_parser().get(
     "LOCAL", "api_url") + '/owner'
 
 
 def _postOwner():
-    conn = legacy_database_helper.get_db_connection()
+    conn = get_db_connection()
     cursor = conn.cursor()
     query = cursor.execute("""
     select * from BEACON_OWNERS_CLEANED where PK_BEACON_OWNER_ID = 228395
@@ -49,15 +45,15 @@ def _postOwner():
                     "postcode": post_code,
                     "country": country,
                     "createdDate": str(create_dt),
-                    "LastModifiedDate": str(update_dt),
-                    "versioning": versioning,
-                    "personType": "OWNER"
+                    "lastModifiedDate": str(update_dt),
+                    "versioning": versioning
                 }
             }
         }
         response = requests.post(api_url_owner, json=dataJsonObj)
 
         print("HTTP response status: ", response.status_code)
+        print("HTTP response body: ", response.content)
         # print("Request: ", response.json())
 
     conn.commit()
