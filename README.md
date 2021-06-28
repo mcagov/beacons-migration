@@ -28,5 +28,6 @@ If using PyCharm for your IDE setup, see the [docs for configuring pipenv](https
 
 ## Running a script
 
-cd to script in terminal
-run python3 scriptnamehere.py
+cd to script in terminal and run:
+
+> pipenv run python _script_to_run_.py
