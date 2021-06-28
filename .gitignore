@@ -1,5 +1,6 @@
 .vscode
 .DS_Store
- *.pyc
- .idea
- *.iml
+*.pyc
+.idea
+*.iml
+instantclient_19_8
