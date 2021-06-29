@@ -55,7 +55,7 @@ def _createCleanOwnersTable():
 
 """
 Helper method to extract based on a regex
- """
+"""
 
 
 def _extractByRegex(regex, field, target_array):

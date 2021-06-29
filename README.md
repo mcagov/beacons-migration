@@ -1,5 +1,7 @@
 # Beacons Extract Transform & Load (ETL) Pipeline
 
+Please see the [Beacons Miro board](https://miro.com/app/board/o9J_lRB60BQ=/) for more information on the migration.
+
 ## MAC setup
 
 Ensure python 3.5+ is installed
