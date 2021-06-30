@@ -1,3 +1,46 @@
+from helpers import legacy_database_helper
+
+GET_ALL_OWNERS_QUERY = "SELECT * FROM BEACON_OWNERS_CLEANED ORDER BY CREATE_DT DESC"
+
+
+def post_aggregated_owners():
+    owner_rows = get_owner_rows()
+    aggregated_owners = aggregate_owners(owner_rows)
+    print(aggregated_owners)
+
+
+def get_owner_rows():
+    result = []
+
+    conn = legacy_database_helper.get_db_connection()
+    with conn.cursor() as cursor:
+        cursor.execute(GET_ALL_OWNERS_QUERY)
+        rows = cursor.fetchall()
+        print(rows)
+        for pk_beacon_owner_id, fk_beacon_id, owner_name, company_name, care_of, address_1, address_2, address_3, address_4, country, post_code, phone_1, phone_2, mobile_1, mobile_2, fax, email, is_main, create_user_id, create_dt, update_user_id, update_dt, versioning in rows:
+            result.append({
+                'pk_beacon_owner_id': pk_beacon_owner_id,
+                'owner_name': owner_name,
+                'company_name': company_name,
+                'care_of': care_of,
+                'address_1': address_1,
+                'address_2': address_2,
+                'address_3': address_3,
+                'address_4': address_4,
+                'country': country,
+                'post_code': post_code,
+                'phone_1': phone_1,
+                'phone_2': phone_2,
+                'mobile_1': mobile_1,
+                'mobile_2': mobile_2,
+                'fax': fax,
+                'email': email
+            })
+            print(result)
+
+    return result
+
+
 def aggregate_owners(owners):
     result = []
 

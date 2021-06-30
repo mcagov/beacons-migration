@@ -25,7 +25,7 @@ update_user_id, ❌
 update_dt, ❌
 versioning ❌
 """
-from etl.aggregate_owners import aggregate_owners
+from aggregate_owners import aggregate_owners
 
 
 def test_aggregation_of_empty_list():

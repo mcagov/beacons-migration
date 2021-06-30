@@ -1,4 +1,3 @@
-import logging
 import os
 import cx_Oracle
 import requests
