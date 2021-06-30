@@ -302,11 +302,11 @@ def _run_rules():
             i = i + 1
             print('Processing index #: ', i)
 
-        if i == 100:
-            print('Breaking at 100 records, TODO remove later')
-            break
 
-    print('Commiting and closing db connection')
+            print('Breaking at 100 records, TODO remove later')
+
+
+    print('Committing and closing db connection')
     db_connection.commit()
     cursor.close()
     db_connection.close()

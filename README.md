@@ -24,6 +24,12 @@ To download the instantclient go to:
 
 **NOTE: When you run this for the first time macOS cannot verify the client files. You will have to open up: System Preferences > Security & Privacy and allow access to the files that cx_Oracle requires**
 
+## Running Unit Tests
+
+[PyTest](https://docs.pytest.org/en/6.2.x/contents.html) is used for unit testing. To run all the unit tests run:
+
+> pipenv run pytest
+
 ## IDE setup
 
 If using PyCharm for your IDE setup, see the [docs for configuring pipenv](https://www.jetbrains.com/help/pycharm/pipenv.html#pipenv-existing-project).

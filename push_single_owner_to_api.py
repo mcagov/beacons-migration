@@ -13,7 +13,7 @@ def _postOwner():
     query = cursor.execute("""
     select * from BEACON_OWNERS_CLEANED where PK_BEACON_OWNER_ID = 228395
         """)
-    # Get one row from owner and push to test api
+    # Get one row from owner and push to tests api
     rows = query.fetchmany()
 
     if rows == []:
