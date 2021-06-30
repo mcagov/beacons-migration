@@ -12,7 +12,7 @@ def _getDBConnection():
         dsn="localhost/XE")
     # Set to desired Oracle schema
     conn.current_schema = 'CERSSVD_SCHEMA'
-    logging.info("Successfully connected to Oracle Database")
+    print("Successfully connected to Oracle Database")
     return conn
 
 def _postOwners():
@@ -31,8 +31,8 @@ def _postOwners():
         for pk_beacon_owner_id, fk_beacon_id, owner_name, company_name, care_of, address_1, address_2, address_3, address_4, country, post_code, phone_1, phone_2, mobile_1, mobile_2, fax, email, is_main, create_user_id, create_dt, update_user_id, update_dt, versioning in rows:
            response = requests.post(os.getenv('API_URL'), json={'owner_name': owner_name, 'owner_email': email})
 
-           logging.info("Status: ", response.status_code)
-           logging.info("Request: ", response.json())
+           print("Status: ", response.status_code)
+           print("Request: ", response.json())
     conn.commit()
     cursor.close()
     conn.close()

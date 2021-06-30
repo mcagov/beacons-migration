@@ -26,7 +26,7 @@ We should align this to whatever country list we're using on the front end.
 
 def _getBrokenCountriesDict():
     countries = {}
-    with open('mca_countries.csv') as csvfile:
+    with open('./assets/mca_countries.csv') as csvfile:
         csvreader = csv.DictReader(csvfile)
         for row in csvreader:
             correct_country = row['correct_country']
@@ -49,6 +49,7 @@ def _createCleanOwnersTable():
         end;""")
     cursor.execute(
         """CREATE TABLE BEACON_OWNERS_CLEANED AS SELECT * FROM BEACON_OWNERS WHERE 1=0""")
+    print("Created the cleansed beacon owners table: BEACON_OWNERS_CLEANED")
     cursor.close()
     connection.close()
 
@@ -155,7 +156,7 @@ def _cleanOwners():
                 elif re.fullmatch(phone_regex, phone_number):
                     other_phone_numbers.append(phone_number)
 
-            #print({'country': valid_country, 'emails': valid_emails, 'uk_mobiles:': uk_mobiles, 'phone_numbers': other_phone_numbers, 'uk_postcodes': uk_postcodes})
+            print({'country': valid_country, 'emails': valid_emails, 'uk_mobiles:': uk_mobiles, 'phone_numbers': other_phone_numbers, 'uk_postcodes': uk_postcodes})
 
             # Now set fields
             if (valid_country == 'UNITED KINGDOM' or valid_country == None) and len(uk_postcodes) > 0:
@@ -190,6 +191,7 @@ def _cleanOwners():
             insert_cursor = conn.cursor()
             insert_cursor.execute(insert_sql, [pk_beacon_owner_id, fk_beacon_id, owner_name, company_name, care_of, address_1, address_2, address_3, address_4,
                                   country, post_code, phone_1, phone_2, mobile_1, mobile_2, fax, email, is_main, create_user_id, create_dt, update_user_id, update_dt, versioning])
+            print("Cleansed owner record with primary key: %s and name: %s", pk_beacon_owner_id, owner_name)
             insert_cursor.close()
 
     conn.commit()
