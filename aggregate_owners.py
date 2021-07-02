@@ -50,11 +50,9 @@ def get_owner_rows():
 
 def aggregate_owners(owners):
     print('Starting to aggregate owners', len(owners), _now())
-    count = 0
     hash_to_owners = {}
 
     for owner in owners:
-        count += 1
         owner_hash = hash_owner(owner)
         pk_keys = {owner.get('pk_beacon_owner_id')}
         matched_owner = hash_to_owners.get(owner_hash, {
@@ -67,29 +65,8 @@ def aggregate_owners(owners):
 
         hash_to_owners.setdefault(owner_hash, matched_owner)
 
-        if count % 100000 == 0:
-            print(f'Compared {count} owners {_now()}.  Number of duplicates {len(hash_to_owners)}')
-
     print('Finished aggregating owners', len(hash_to_owners), _now())
     return [aggregated_owner for aggregated_owner in hash_to_owners.values()]
-
-
-def _is_same_owner(owner, to_compare):
-    return (owner.get('owner_name') == to_compare.get('owner_name')) and \
-           (owner.get('company_name') == to_compare.get('company_name')) and \
-           (owner.get('care_of') == to_compare.get('care_of')) and \
-           (owner.get('address_1') == to_compare.get('address_1')) and \
-           (owner.get('address_2') == to_compare.get('address_2')) and \
-           (owner.get('address_3') == to_compare.get('address_3')) and \
-           (owner.get('address_4') == to_compare.get('address_4')) and \
-           (owner.get('country') == to_compare.get('country')) and \
-           (owner.get('post_code') == to_compare.get('post_code')) and \
-           (owner.get('phone_1') == to_compare.get('phone_1')) and \
-           (owner.get('phone_2') == to_compare.get('phone_2')) and \
-           (owner.get('mobile_1') == to_compare.get('mobile_1')) and \
-           (owner.get('mobile_2') == to_compare.get('mobile_2')) and \
-           (owner.get('fax') == to_compare.get('fax')) and \
-           (owner.get('email') == to_compare.get('email'))
 
 
 def hash_owner(owner):
