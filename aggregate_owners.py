@@ -51,13 +51,13 @@ def get_owner_rows():
 def aggregate_owners(owners):
     print('Starting to aggregate owners', len(owners), _now())
     count = 0
-    result = {}
+    hash_to_owners = {}
 
     for owner in owners:
         count += 1
         owner_hash = hash_owner(owner)
         pk_keys = {owner.get('pk_beacon_owner_id')}
-        matched_owner = result.get(owner_hash, {
+        matched_owner = hash_to_owners.get(owner_hash, {
             'pk_keys': pk_keys,
             'owner': {
                 key: value for key, value in owner.items() if key not in 'pk_beacon_owner_id'
@@ -65,11 +65,13 @@ def aggregate_owners(owners):
         })
         matched_owner['pk_keys'] |= pk_keys
 
-        if count % 100000 == 0:
-            print(f'Compared {count} owners {_now()}.  Number of duplicates {len(result)}')
+        hash_to_owners.setdefault(owner_hash, matched_owner)
 
-    print('Finished aggregating owners', len(result), _now())
-    return result.values()
+        if count % 100000 == 0:
+            print(f'Compared {count} owners {_now()}.  Number of duplicates {len(hash_to_owners)}')
+
+    print('Finished aggregating owners', len(hash_to_owners), _now())
+    return [aggregated_owner for aggregated_owner in hash_to_owners.values()]
 
 
 def _is_same_owner(owner, to_compare):
