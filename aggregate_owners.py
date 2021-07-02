@@ -1,22 +1,29 @@
+from datetime import datetime
+
 from helpers import legacy_database_helper
 
 GET_ALL_OWNERS_QUERY = "SELECT * FROM BEACON_OWNERS_CLEANED ORDER BY CREATE_DT DESC"
 
 
 def post_aggregated_owners():
+    print('Starting aggregating owners', _now())
+    aggregated_owners = get_aggregated_owners()
+    print('Number of aggregated owners:', len(aggregated_owners), _now())
+
+
+def get_aggregated_owners():
     owner_rows = get_owner_rows()
-    aggregated_owners = aggregate_owners(owner_rows)
-    print(aggregated_owners)
+    return aggregate_owners(owner_rows)
 
 
 def get_owner_rows():
+    print('Getting owner rows', _now())
     result = []
 
     conn = legacy_database_helper.get_db_connection()
     with conn.cursor() as cursor:
         cursor.execute(GET_ALL_OWNERS_QUERY)
         rows = cursor.fetchall()
-        print(rows)
         for pk_beacon_owner_id, fk_beacon_id, owner_name, company_name, care_of, address_1, address_2, address_3, address_4, country, post_code, phone_1, phone_2, mobile_1, mobile_2, fax, email, is_main, create_user_id, create_dt, update_user_id, update_dt, versioning in rows:
             result.append({
                 'pk_beacon_owner_id': pk_beacon_owner_id,
@@ -36,16 +43,20 @@ def get_owner_rows():
                 'fax': fax,
                 'email': email
             })
-            print(result)
 
+    print(f'Finished extracting owner rows.  Number of rows: {len(result)}.  Matched owners: {len(result)}', _now())
     return result
 
 
 def aggregate_owners(owners):
+    print('Starting to aggregate owners', len(owners), _now())
+    count = 0
     result = []
 
     for owner in owners:
         for to_compare in owners:
+            count += 1
+            
             pk_keys = {owner.get('pk_beacon_owner_id')}
             match = _is_same_owner(owner, to_compare)
             if match:
@@ -67,6 +78,10 @@ def aggregate_owners(owners):
                     }
                 })
 
+            if count % 100000 == 0:
+                print(f'Compared {count} owners {_now()}.  Number of duplicates {len(result)}')
+
+    print('Finished aggregating owners', len(result), _now())
     return result
 
 
@@ -86,3 +101,23 @@ def _is_same_owner(owner, to_compare):
            (owner.get('mobile_2') == to_compare.get('mobile_2')) and \
            (owner.get('fax') == to_compare.get('fax')) and \
            (owner.get('email') == to_compare.get('email'))
+
+
+def hash_owner(owner):
+    return f'{hash(owner.get("owner_name"))}-{hash(owner.get("company_name"))}-' + \
+           f'{hash(owner.get("care_of"))}-{hash(owner.get("address_1"))}-' + \
+           f'{hash(owner.get("address_2"))}-{hash(owner.get("address_3"))}-' + \
+           f'{hash(owner.get("address_4"))}-{hash(owner.get("country"))}-' + \
+           f'{hash(owner.get("post_code"))}-{hash(owner.get("phone_1"))}-' + \
+           f'{hash(owner.get("phone_2"))}-{hash(owner.get("mobile_1"))}-' + \
+           f'{hash(owner.get("mobile_2"))}-{hash(owner.get("fax"))}-' + \
+           f'{hash(owner.get("email"))}'
+
+
+def _now():
+    return datetime.now()
+
+
+if __name__ == '__main__':
+    print('aggregating owners, might take some time')
+    post_aggregated_owners()
