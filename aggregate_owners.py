@@ -51,38 +51,25 @@ def get_owner_rows():
 def aggregate_owners(owners):
     print('Starting to aggregate owners', len(owners), _now())
     count = 0
-    result = []
+    result = {}
 
     for owner in owners:
-        for to_compare in owners:
-            count += 1
-            
-            pk_keys = {owner.get('pk_beacon_owner_id')}
-            match = _is_same_owner(owner, to_compare)
-            if match:
-                pk_keys.add(to_compare.get('pk_beacon_owner_id'))
+        count += 1
+        owner_hash = hash_owner(owner)
+        pk_keys = {owner.get('pk_beacon_owner_id')}
+        matched_owner = result.get(owner_hash, {
+            'pk_keys': pk_keys,
+            'owner': {
+                key: value for key, value in owner.items() if key not in 'pk_beacon_owner_id'
+            }
+        })
+        matched_owner['pk_keys'] |= pk_keys
 
-            has_matched_owner = False
-            for matched_owners in result:
-                owner_details = matched_owners.get('owner')
-                has_matched_owner = _is_same_owner(owner, owner_details)
-                if has_matched_owner:
-                    matched_owners['pk_keys'] |= pk_keys
-                    break
-
-            if not has_matched_owner:
-                result.append({
-                    'pk_keys': pk_keys,
-                    'owner': {
-                        key: value for key, value in owner.items() if key not in 'pk_beacon_owner_id'
-                    }
-                })
-
-            if count % 100000 == 0:
-                print(f'Compared {count} owners {_now()}.  Number of duplicates {len(result)}')
+        if count % 100000 == 0:
+            print(f'Compared {count} owners {_now()}.  Number of duplicates {len(result)}')
 
     print('Finished aggregating owners', len(result), _now())
-    return result
+    return result.values()
 
 
 def _is_same_owner(owner, to_compare):
