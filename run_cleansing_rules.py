@@ -190,8 +190,9 @@ def _set_email(email, valid_emails):
     return email
 
 
-def _cleanse_owner_row(pk_beacon_owner_id, fk_beacon_id, owner_name, company_name, care_of, address_1, address_2, address_3, address_4, country, post_code, phone_1, phone_2, mobile_1, mobile_2, fax, email, is_main, create_user_id, create_dt, update_user_id, update_dt, versioning):
-
+def _cleanse_owner_row(pk_beacon_owner_id, fk_beacon_id, owner_name, company_name, care_of, address_1, address_2,
+                       address_3, address_4, country, post_code, phone_1, phone_2, mobile_1, mobile_2, fax, email,
+                       is_main, create_user_id, create_dt, update_user_id, update_dt, versioning):
     valid_emails = _get_valid_emails_list_from_fields(
         email, phone_1, phone_2, mobile_1, mobile_1)
 
@@ -261,8 +262,11 @@ def _cleanse_owner_row(pk_beacon_owner_id, fk_beacon_id, owner_name, company_nam
                 :fax, :email, :is_main, :create_user_id, :create_dt, :update_user_id, :update_dt, :versioning)"""
 
     insert_cursor = db_connection.cursor()
-    insert_cursor.execute(insert_sql, [pk_beacon_owner_id, fk_beacon_id, owner_name, company_name, care_of, address_1, address_2, address_3, address_4,
-                                       country, post_code, phone_1, phone_2, mobile_1, mobile_2, fax, email, is_main, create_user_id, create_dt, update_user_id, update_dt, versioning])
+    insert_cursor.execute(insert_sql,
+                          [pk_beacon_owner_id, fk_beacon_id, owner_name, company_name, care_of, address_1, address_2,
+                           address_3, address_4,
+                           country, post_code, phone_1, phone_2, mobile_1, mobile_2, fax, email, is_main,
+                           create_user_id, create_dt, update_user_id, update_dt, versioning])
     insert_cursor.close()
 
 
@@ -297,14 +301,14 @@ def _run_rules():
 
         print("Processing row count: ", len(owners))
         for pk_beacon_owner_id, fk_beacon_id, owner_name, company_name, care_of, address_1, address_2, address_3, address_4, country, post_code, phone_1, phone_2, mobile_1, mobile_2, fax, email, is_main, create_user_id, create_dt, update_user_id, update_dt, versioning in owners:
-            _cleanse_owner_row(pk_beacon_owner_id, fk_beacon_id, owner_name, company_name, care_of, address_1, address_2, address_3, address_4, country,
-                               post_code, phone_1, phone_2, mobile_1, mobile_2, fax, email, is_main, create_user_id, create_dt, update_user_id, update_dt, versioning)
+            _cleanse_owner_row(pk_beacon_owner_id, fk_beacon_id, owner_name, company_name, care_of, address_1,
+                               address_2, address_3, address_4, country,
+                               post_code, phone_1, phone_2, mobile_1, mobile_2, fax, email, is_main, create_user_id,
+                               create_dt, update_user_id, update_dt, versioning)
             i = i + 1
             print('Processing index #: ', i)
 
-
             print('Breaking at 100 records, TODO remove later')
-
 
     print('Committing and closing db connection')
     db_connection.commit()
@@ -312,4 +316,5 @@ def _run_rules():
     db_connection.close()
 
 
-_run_rules()
+if __name__ == '__main__':
+    _run_rules()
