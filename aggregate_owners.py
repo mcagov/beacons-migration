@@ -67,13 +67,16 @@ def aggregate_owners(owners):
     for owner in owners:
         owner_hash = hash_owner(owner)
         pk_keys = {owner.get('pk_beacon_owner_id')}
+        created_dates = {owner.get('created_date')}
         matched_owner = hash_to_owners.get(owner_hash, {
             'pk_keys': pk_keys,
             'owner': {
-                key: value for key, value in owner.items() if key not in 'pk_beacon_owner_id'
-            }
+                key: value for key, value in owner.items() if key not in 'pk_beacon_owner_id' or 'created_date'
+            },
+            'created_dates': created_dates
         })
         matched_owner['pk_keys'] |= pk_keys
+        matched_owner['created_dates'] |= created_dates
 
         hash_to_owners.setdefault(owner_hash, matched_owner)
 
@@ -90,6 +93,18 @@ def hash_owner(owner):
            f'{hash(owner.get("phone_2"))}-{hash(owner.get("mobile_1"))}-' + \
            f'{hash(owner.get("mobile_2"))}-{hash(owner.get("fax"))}-' + \
            f'{hash(owner.get("email"))}'
+
+
+def earliest_date(dates):
+    filtered_dates = [date for date in dates if date is not None]
+    filtered_dates.sort()
+    return filtered_dates[0]
+
+
+def latest_date(dates):
+    filtered_dates = [date for date in dates if date is not None]
+    filtered_dates.sort()
+    return filtered_dates[-1]
 
 
 def create_owner_lookup_table():
