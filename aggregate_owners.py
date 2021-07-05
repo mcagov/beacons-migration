@@ -1,4 +1,7 @@
 from datetime import datetime
+from functools import reduce
+
+import requests
 
 from helpers import legacy_database_helper
 from helpers.config_helper import get_config_parser
@@ -98,36 +101,49 @@ def create_owner_lookup_table():
 
 
 def post_owners_to_api(owners):
-    def post_owner(owner):
+    def post_owner(o):
+        owner_details = o.get('owner')
         data = {
             'data': {
-                'fullName': owner.get('owner_name'),
-                'companyName': owner.get('company_name'),
-                'careOf': owner.get('care_of'),
-                'email': owner.get('email'),
-                'telephoneNumber': owner.get('phone_1'),
-                'alternativeTelephoneNumber': owner.get('phone_2'),
-                'telephoneNumber2': owner.get('mobile_1'),
-                'alternativeTelephoneNumber2': owner.get('mobile_2'),
-                'fax': owner.get('fax'),
-                'isMain': owner.get('is_main'),
-                'createUserId': owner.get('create_user_id'),
-                'updateUserId': owner.get('update_user_id'),
-                'addressLine1': owner.get('address_1'),
-                'addressLine2': owner.get('address_2'),
-                'addressLine3': owner.get('address_3'),
-                'addressLine4': owner.get('address_4'),
-                'townOrCity': owner.get('address_3'),
-                'postcode': owner.get('post_code'),
-                'country': owner.get('country'),
-                'createdDate': f'{owner.get("create_dt")}',
-                'lastModifiedDate': f'{owner.get("update_dt")}',
-                'versioning': owner.get('versioning'),
+                'fullName': owner_details.get('owner_name'),
+                'companyName': owner_details.get('company_name'),
+                'careOf': owner_details.get('care_of'),
+                'email': owner_details.get('email'),
+                'telephoneNumber': owner_details.get('phone_1'),
+                'alternativeTelephoneNumber': owner_details.get('phone_2'),
+                'telephoneNumber2': owner_details.get('mobile_1'),
+                'alternativeTelephoneNumber2': owner_details.get('mobile_2'),
+                'fax': owner_details.get('fax'),
+                'isMain': owner_details.get('is_main'),
+                'createUserId': owner_details.get('create_user_id'),
+                'updateUserId': owner_details.get('update_user_id'),
+                'addressLine1': owner_details.get('address_1'),
+                'addressLine2': owner_details.get('address_2'),
+                'addressLine3': owner_details.get('address_3'),
+                'addressLine4': owner_details.get('address_4'),
+                'townOrCity': owner_details.get('address_3'),
+                'postcode': owner_details.get('post_code'),
+                'country': owner_details.get('country'),
+                'createdDate': f'{owner_details.get("create_dt")}',
+                'lastModifiedDate': f'{owner_details.get("update_dt")}'
             }
         }
 
-    print('Posting owners to api')
-    result = []
+        response = requests.post(api_url_owner, json=data)
+        results.append({
+            'status': response.status_code,
+            'body': response.json(),
+            'pk_keys': owner.get('pk_keys')
+        })
+
+    results = []
+
+    for owner in owners:
+        post_owner(owner)
+
+    print(f'Posted {len(results)} owners')
+
+    return results
 
 
 def _now():
@@ -138,4 +154,4 @@ if __name__ == '__main__':
     print(f'Starting aggregating owners {_now()}')
     aggregated_owners = get_aggregated_owners()
     create_owner_lookup_table()
-    result = post_owners_to_api(aggregated_owners)
+    results = post_owners_to_api(aggregated_owners)

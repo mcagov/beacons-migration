@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from aggregate_owners import aggregate_owners
 
@@ -178,8 +178,73 @@ def test_many_owners_aggregated():
     ]
 
 
-def test_two_owners_not_aggregated_for_same_values_in_different_fields():
+def test_aggregate_owner_with_earliest_created_date():
     now = datetime.now()
+    assert aggregate_owners([
+        {
+            'pk_beacon_owner_id': 1,
+            'owner_name': 'Matt',
+            'company_name': 'MCA',
+            'care_of': 'MCA',
+            'address_1': "10 City Beach",
+            'address_2': 'Salt Lake',
+            'address_3': 'At Home',
+            'address_4': 'In Bed',
+            'country': 'UK',
+            'post_code': 'CL1 2DG',
+            'phone_1': '0117123456',
+            'phone_2': 'Call me',
+            'mobile_1': '07713812678',
+            'mobile_2': 'On my mobile',
+            'fax': 'Fax me',
+            'email': 'mca@mcga.gov.uk',
+            'created_date': now
+        },
+        {
+            'pk_beacon_owner_id': 2,
+            'owner_name': 'Matt',
+            'company_name': 'MCA',
+            'care_of': 'MCA',
+            'address_1': "10 City Beach",
+            'address_2': 'Salt Lake',
+            'address_3': 'At Home',
+            'address_4': 'In Bed',
+            'country': 'UK',
+            'post_code': 'CL1 2DG',
+            'phone_1': '0117123456',
+            'phone_2': 'Call me',
+            'mobile_1': '07713812678',
+            'mobile_2': 'On my mobile',
+            'fax': 'Fax me',
+            'email': 'mca@mcga.gov.uk',
+            'created_date': now - timedelta(1)
+        }
+    ]) == [
+               {
+                   'pk_keys': {1, 2},
+                   'owner': {
+                       'owner_name': 'Matt',
+                       'company_name': 'MCA',
+                       'care_of': 'MCA',
+                       'address_1': "10 City Beach",
+                       'address_2': 'Salt Lake',
+                       'address_3': 'At Home',
+                       'address_4': 'In Bed',
+                       'country': 'UK',
+                       'post_code': 'CL1 2DG',
+                       'phone_1': '0117123456',
+                       'phone_2': 'Call me',
+                       'mobile_1': '07713812678',
+                       'mobile_2': 'On my mobile',
+                       'fax': 'Fax me',
+                       'email': 'mca@mcga.gov.uk',
+                       'created_date': now - timedelta(1)
+                   }
+               }
+           ]
+
+
+def test_two_owners_not_aggregated_for_same_values_in_different_fields():
     assert aggregate_owners([
         {
             'pk_beacon_owner_id': 1,
