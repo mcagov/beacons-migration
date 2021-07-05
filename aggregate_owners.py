@@ -67,21 +67,22 @@ def aggregate_owners(owners):
     for owner in owners:
         owner_hash = hash_owner(owner)
         pk_keys = {owner.get('pk_beacon_owner_id')}
-        created_dates = {owner.get('created_date')}
+        created_dates = [owner.get('created_date')]
         matched_owner = hash_to_owners.get(owner_hash, {
             'pk_keys': pk_keys,
             'owner': {
-                key: value for key, value in owner.items() if key not in 'pk_beacon_owner_id' or 'created_date'
+                key: value for key, value in owner.items() if key not in 'pk_beacon_owner_id' and 'created_date'
             },
             'created_dates': created_dates
         })
         matched_owner['pk_keys'] |= pk_keys
-        matched_owner['created_dates'] |= created_dates
+        matched_owner['created_dates'] += created_dates
+        matched_owner['owner']['created_date'] = earliest_date(matched_owner.get('created_dates'))
 
         hash_to_owners.setdefault(owner_hash, matched_owner)
 
     print(f'Finished aggregating owners {len(hash_to_owners)} {_now()}')
-    return [aggregated_owner for aggregated_owner in hash_to_owners.values()]
+    return [{k: v for k, v in owner.items() if k not in 'created_dates'} for owner in hash_to_owners.values()]
 
 
 def hash_owner(owner):

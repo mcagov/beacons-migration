@@ -8,6 +8,7 @@ def test_aggregation_of_empty_list():
 
 
 def test_no_owners_aggregated():
+    now = datetime.now()
     assert aggregate_owners([
         {
             'pk_beacon_owner_id': 1,
@@ -25,7 +26,8 @@ def test_no_owners_aggregated():
             'mobile_1': '07713812678',
             'mobile_2': None,
             'fax': None,
-            'email': 'mca@mcga.gov.uk'
+            'email': 'mca@mcga.gov.uk',
+            'created_date': now
         },
         {
             'pk_beacon_owner_id': 2,
@@ -43,7 +45,8 @@ def test_no_owners_aggregated():
             'mobile_1': '07713812678',
             'mobile_2': None,
             'fax': None,
-            'email': 'mca@mcga.gov.uk'
+            'email': 'mca@mcga.gov.uk',
+            'created_date': now
         }
     ]) == [
                {
@@ -63,7 +66,8 @@ def test_no_owners_aggregated():
                        'mobile_1': '07713812678',
                        'mobile_2': None,
                        'fax': None,
-                       'email': 'mca@mcga.gov.uk'
+                       'email': 'mca@mcga.gov.uk',
+                       'created_date': now
                    }
                },
                {
@@ -83,13 +87,15 @@ def test_no_owners_aggregated():
                        'mobile_1': '07713812678',
                        'mobile_2': None,
                        'fax': None,
-                       'email': 'mca@mcga.gov.uk'
+                       'email': 'mca@mcga.gov.uk',
+                       'created_date': now
                    }
                }
            ]
 
 
 def test_two_owners_aggregated():
+    now = datetime.now()
     assert aggregate_owners([
         {
             'pk_beacon_owner_id': 1,
@@ -107,7 +113,8 @@ def test_two_owners_aggregated():
             'mobile_1': '07713812678',
             'mobile_2': 'On my mobile',
             'fax': 'Fax me',
-            'email': 'mca@mcga.gov.uk'
+            'email': 'mca@mcga.gov.uk',
+            'created_date': now
         },
         {
             'pk_beacon_owner_id': 2,
@@ -125,7 +132,8 @@ def test_two_owners_aggregated():
             'mobile_1': '07713812678',
             'mobile_2': 'On my mobile',
             'fax': 'Fax me',
-            'email': 'mca@mcga.gov.uk'
+            'email': 'mca@mcga.gov.uk',
+            'created_date': now
         }
     ]) == [
                {
@@ -145,13 +153,15 @@ def test_two_owners_aggregated():
                        'mobile_1': '07713812678',
                        'mobile_2': 'On my mobile',
                        'fax': 'Fax me',
-                       'email': 'mca@mcga.gov.uk'
+                       'email': 'mca@mcga.gov.uk',
+                       'created_date': now
                    }
                }
            ]
 
 
 def test_many_owners_aggregated():
+    now = datetime.now()
     owner = {'owner_name': 'Matt',
              'company_name': 'MCA',
              'care_of': 'MCA',
@@ -166,7 +176,9 @@ def test_many_owners_aggregated():
              'mobile_1': '07713812678',
              'mobile_2': 'On my mobile',
              'fax': 'Fax me',
-             'email': 'mca@mcga.gov.uk'}
+             'email': 'mca@mcga.gov.uk',
+             'created_date': now
+             }
     owners = [{**owner, 'pk_beacon_owner_id': i} for i in range(0, 100)]
     assert aggregate_owners(owners) == [
         {
@@ -245,6 +257,7 @@ def test_aggregate_owner_with_earliest_created_date():
 
 
 def test_two_owners_not_aggregated_for_same_values_in_different_fields():
+    now = datetime.now()
     assert aggregate_owners([
         {
             'pk_beacon_owner_id': 1,
@@ -262,7 +275,8 @@ def test_two_owners_not_aggregated_for_same_values_in_different_fields():
             'mobile_1': '07713812678',
             'mobile_2': 'On my mobile',
             'fax': 'Fax me',
-            'email': 'mca@mcga.gov.uk'
+            'email': 'mca@mcga.gov.uk',
+            'created_date': now
         },
         {
             'pk_beacon_owner_id': 2,
@@ -280,7 +294,8 @@ def test_two_owners_not_aggregated_for_same_values_in_different_fields():
             'mobile_1': 'On my mobile',
             'mobile_2': '07713812678',
             'fax': 'Fax me',
-            'email': 'mca@mcga.gov.uk'
+            'email': 'mca@mcga.gov.uk',
+            'created_date': now
         }
     ]) == [
                {
@@ -300,7 +315,8 @@ def test_two_owners_not_aggregated_for_same_values_in_different_fields():
                        'mobile_1': '07713812678',
                        'mobile_2': 'On my mobile',
                        'fax': 'Fax me',
-                       'email': 'mca@mcga.gov.uk'
+                       'email': 'mca@mcga.gov.uk',
+                       'created_date': now
                    }
                },
                {
@@ -320,7 +336,8 @@ def test_two_owners_not_aggregated_for_same_values_in_different_fields():
                        'mobile_1': 'On my mobile',
                        'mobile_2': '07713812678',
                        'fax': 'Fax me',
-                       'email': 'mca@mcga.gov.uk'
+                       'email': 'mca@mcga.gov.uk',
+                       'created_date': now
                    }
                }
            ]
