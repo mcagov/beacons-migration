@@ -16,6 +16,8 @@ end;
 
 CREATE_OWNER_LOOKUP_TABLE_SQL = "CREATE TABLE BEACON_OWNERS_LOOKUP (PK_BEACON_OWNER_ID NUMBER(28), API_ID VARCHAR(36))"
 
+INSERT_INTO_LOOKUP_TABLE_SQL = "INSERT INTO BEACON_OWNERS_LOOKUP (PK_BEACON_OWNER_ID, API_ID) VALUES(:pk_beacon_owner_id, api_id)"
+
 api_url_owner = get_config_parser().get(
     "LOCAL", "api_url") + '/owner'
 
@@ -163,7 +165,8 @@ def post_owners_to_api(owners):
         results.append({
             'status': response.status_code,
             'body': response.content,
-            'pk_keys': owner.get('pk_keys')
+            'pk_keys': owner.get('pk_keys'),
+            'api_id': response.json().get('data').get('id') if 'id' in f'{response.content}' else None
         })
 
     results = []
@@ -187,6 +190,17 @@ def _print_results(results):
             failure += 1
 
     print(f'Stats.  Success: {success}.  Failure: {failure} {_now()}')
+
+
+def populate_lookup_table(results):
+    print('Populating owner PK -> API id lookup table')
+    for result in results:
+        if result.get('status') == 201:
+            with legacy_database_helper.get_db_connection() as conn:
+                with conn.cursor() as cursor:
+                    api_id = result.get('api_id')
+                    for pk_key in result.get('pk_keys'):
+                        cursor.execute(INSERT_INTO_LOOKUP_TABLE_SQL, [pk_key, api_id])
 
 
 def _now():

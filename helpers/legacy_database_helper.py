@@ -22,7 +22,7 @@ def get_db_connection():
     conn = cx_Oracle.connect(
         user="system",
         password="oracle",
-        dsn="ec2-18-132-41-196.eu-west-2.compute.amazonaws.com/XE")
+        dsn="localhost/XE")
     # Set to desired Oracle schema
     conn.current_schema = 'CERSSVD_SCHEMA'
     print("Successfully connected to Oracle Database")
