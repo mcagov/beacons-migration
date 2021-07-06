@@ -168,6 +168,7 @@ def test_two_owners_aggregated():
 
 
 def test_many_owners_aggregated():
+    upper_bound = 100000
     now = datetime.now()
     owner = {'owner_name': 'Matt',
              'company_name': 'MCA',
@@ -185,14 +186,14 @@ def test_many_owners_aggregated():
              'fax': 'Fax me',
              'email': 'mca@mcga.gov.uk'
              }
-    owners = [{**owner, 'pk_beacon_owner_id': i, 'created_date': now - timedelta(i), 'last_modified_date': now + timedelta(i)} for i in range(0, 100)]
+    owners = [{**owner, 'pk_beacon_owner_id': i, 'created_date': now - timedelta(i), 'last_modified_date': now + timedelta(i)} for i in range(0, upper_bound)]
     assert aggregate_owners(owners) == [
         {
-            'pk_keys': {i for i in range(0, 100)},
+            'pk_keys': {i for i in range(0, upper_bound)},
             'owner': {
                 **owner,
-                'created_date': now - timedelta(99),
-                'last_modified_date': now + timedelta(99)
+                'created_date': now - timedelta(upper_bound - 1),
+                'last_modified_date': now + timedelta(upper_bound - 1)
             }
         }
     ]

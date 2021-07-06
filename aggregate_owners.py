@@ -56,7 +56,7 @@ def get_owner_rows():
                     'last_modified_date': update_dt
                 })
 
-    print(f'Finished extracting owner rows.  Number of rows {len(result)}.  Matched owners: {len(result)} {_now()}')
+    print(f'Finished extracting owner rows.  Number of rows {len(result)}.  {_now()}')
     return result
 
 
@@ -81,14 +81,19 @@ def aggregate_owners(owners):
         matched_owner['pk_keys'] |= pk_keys
         matched_owner['created_dates'] += created_dates
         matched_owner['last_modified_dates'] += last_modified_dates
-        matched_owner['owner']['created_date'] = earliest_date(matched_owner.get('created_dates'))
-        matched_owner['owner']['last_modified_date'] = latest_date(matched_owner.get('last_modified_dates'))
 
         hash_to_owners.setdefault(owner_hash, matched_owner)
 
+    for aggregated_owner in hash_to_owners.values():
+        created_date = earliest_date(aggregated_owner.get('created_dates'))
+        last_modified_date = latest_date(aggregated_owner.get('last_modified_dates'))
+        aggregated_owner['owner']['created_date'] = created_date
+        aggregated_owner['owner']['last_modified_date'] = last_modified_date
+        del aggregated_owner['created_dates']
+        del aggregated_owner['last_modified_dates']
+
     print(f'Finished aggregating owners {len(hash_to_owners)} {_now()}')
-    return [{k: v for k, v in owner.items() if k not in ['created_dates', 'last_modified_dates']} for owner in
-            hash_to_owners.values()]
+    return [aggregated_owner for aggregated_owner in hash_to_owners.values()]
 
 
 def hash_owner(owner):
@@ -168,6 +173,18 @@ def post_owners_to_api(owners):
     return results
 
 
+def _print_results(results):
+    success = 0
+    failure = 0
+    for result in results:
+        if result.status_code == 201:
+            success += 1
+        else:
+            failure += 1
+
+    print(f'Stats.  Success: {success}.  Failure: {failure}')
+
+
 def _now():
     return datetime.now()
 
@@ -176,4 +193,5 @@ if __name__ == '__main__':
     print(f'Starting aggregating owners {_now()}')
     aggregated_owners = get_aggregated_owners()
     create_owner_lookup_table()
-    results = post_owners_to_api(aggregated_owners)
+    # results = post_owners_to_api(aggregated_owners)
+    # _print_results(results)
