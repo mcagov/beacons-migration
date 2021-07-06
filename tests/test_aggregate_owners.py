@@ -183,16 +183,16 @@ def test_many_owners_aggregated():
              'mobile_1': '07713812678',
              'mobile_2': 'On my mobile',
              'fax': 'Fax me',
-             'email': 'mca@mcga.gov.uk',
-             'created_date': now,
-             'last_modified_date': now
+             'email': 'mca@mcga.gov.uk'
              }
-    owners = [{**owner, 'pk_beacon_owner_id': i} for i in range(0, 100)]
+    owners = [{**owner, 'pk_beacon_owner_id': i, 'created_date': now - timedelta(i), 'last_modified_date': now + timedelta(i)} for i in range(0, 100)]
     assert aggregate_owners(owners) == [
         {
             'pk_keys': {i for i in range(0, 100)},
             'owner': {
-                **owner
+                **owner,
+                'created_date': now - timedelta(99),
+                'last_modified_date': now + timedelta(99)
             }
         }
     ]

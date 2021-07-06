@@ -56,7 +56,7 @@ def get_owner_rows():
                     'last_modified_date': update_dt
                 })
 
-    print(f'Finished extracting owner rows.  Number of rows {len(result)}.  Matched owners: {len(result)}', _now())
+    print(f'Finished extracting owner rows.  Number of rows {len(result)}.  Matched owners: {len(result)} {_now()}')
     return result
 
 
@@ -79,6 +79,7 @@ def aggregate_owners(owners):
         })
         matched_owner['pk_keys'] |= pk_keys
         matched_owner['created_dates'] += created_dates
+        matched_owner['last_modified_dates'] += last_modified_dates
         matched_owner['owner']['created_date'] = earliest_date(matched_owner.get('created_dates'))
         matched_owner['owner']['last_modified_date'] = latest_date(matched_owner.get('last_modified_dates'))
 
