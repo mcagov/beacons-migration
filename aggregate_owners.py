@@ -1,5 +1,4 @@
 from datetime import datetime
-from functools import reduce
 
 import requests
 
@@ -7,12 +6,14 @@ from helpers import legacy_database_helper
 from helpers.config_helper import get_config_parser
 
 GET_ALL_OWNERS_QUERY = "SELECT * FROM BEACON_OWNERS_CLEANED ORDER BY CREATE_DT DESC"
+
 DROP_OWNER_LOOKUP_TABLE_SQL = """
 begin
     execute immediate 'drop table BEACON_OWNERS_LOOKUP';
     exception when others then if sqlcode <> -942 then raise; end if;
 end;
 """
+
 CREATE_OWNER_LOOKUP_TABLE_SQL = "CREATE TABLE BEACON_OWNERS_LOOKUP (PK_BEACON_OWNER_ID NUMBER(28), API_ID VARCHAR(36))"
 
 api_url_owner = get_config_parser().get(
@@ -193,5 +194,5 @@ if __name__ == '__main__':
     print(f'Starting aggregating owners {_now()}')
     aggregated_owners = get_aggregated_owners()
     create_owner_lookup_table()
-    # results = post_owners_to_api(aggregated_owners)
-    # _print_results(results)
+    results = post_owners_to_api(aggregated_owners)
+    _print_results(results)
