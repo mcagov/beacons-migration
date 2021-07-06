@@ -133,39 +133,42 @@ def post_owners_to_api(owners):
         owner_details = o.get('owner')
         data = {
             'data': {
-                'fullName': owner_details.get('owner_name'),
-                'companyName': owner_details.get('company_name'),
-                'careOf': owner_details.get('care_of'),
-                'email': owner_details.get('email'),
-                'telephoneNumber': owner_details.get('phone_1'),
-                'alternativeTelephoneNumber': owner_details.get('phone_2'),
-                'telephoneNumber2': owner_details.get('mobile_1'),
-                'alternativeTelephoneNumber2': owner_details.get('mobile_2'),
-                'fax': owner_details.get('fax'),
-                'isMain': owner_details.get('is_main'),
-                'createUserId': owner_details.get('create_user_id'),
-                'updateUserId': owner_details.get('update_user_id'),
-                'addressLine1': owner_details.get('address_1'),
-                'addressLine2': owner_details.get('address_2'),
-                'addressLine3': owner_details.get('address_3'),
-                'addressLine4': owner_details.get('address_4'),
-                'townOrCity': owner_details.get('address_3'),
-                'postcode': owner_details.get('post_code'),
-                'country': owner_details.get('country'),
-                'createdDate': f'{owner_details.get("create_dt")}',
-                'lastModifiedDate': f'{owner_details.get("update_dt")}'
+                'attributes': {
+                    'fullName': owner_details.get('owner_name'),
+                    'companyName': owner_details.get('company_name'),
+                    'careOf': owner_details.get('care_of'),
+                    'email': owner_details.get('email'),
+                    'telephoneNumber': owner_details.get('phone_1'),
+                    'alternativeTelephoneNumber': owner_details.get('phone_2'),
+                    'telephoneNumber2': owner_details.get('mobile_1'),
+                    'alternativeTelephoneNumber2': owner_details.get('mobile_2'),
+                    'fax': owner_details.get('fax'),
+                    'isMain': owner_details.get('is_main'),
+                    'createUserId': owner_details.get('create_user_id'),
+                    'updateUserId': owner_details.get('update_user_id'),
+                    'addressLine1': owner_details.get('address_1'),
+                    'addressLine2': owner_details.get('address_2'),
+                    'addressLine3': owner_details.get('address_3'),
+                    'addressLine4': owner_details.get('address_4'),
+                    'townOrCity': owner_details.get('address_3'),
+                    'postcode': owner_details.get('post_code'),
+                    'country': owner_details.get('country'),
+                    'createdDate': f'{owner_details.get("created_date")}',
+                    'lastModifiedDate': f'{owner_details.get("last_modified_date")}'
+                }
             }
         }
 
         response = requests.post(api_url_owner, json=data)
         results.append({
             'status': response.status_code,
-            'body': response.json(),
+            'body': response.content,
             'pk_keys': owner.get('pk_keys')
         })
 
     results = []
 
+    print(f'Posting owners to the API {_now()}')
     for owner in owners:
         post_owner(owner)
 
@@ -178,12 +181,12 @@ def _print_results(results):
     success = 0
     failure = 0
     for result in results:
-        if result.status_code == 201:
+        if result.get('status') == 201:
             success += 1
         else:
             failure += 1
 
-    print(f'Stats.  Success: {success}.  Failure: {failure}')
+    print(f'Stats.  Success: {success}.  Failure: {failure} {_now()}')
 
 
 def _now():
