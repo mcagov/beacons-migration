@@ -6,17 +6,14 @@ from helpers import legacy_database_helper
 from helpers.config_helper import get_config_parser
 
 GET_ALL_OWNERS_QUERY = "SELECT * FROM BEACON_OWNERS_CLEANED ORDER BY CREATE_DT DESC"
-
 DROP_OWNER_LOOKUP_TABLE_SQL = """
 begin
     execute immediate 'drop table BEACON_OWNERS_LOOKUP';
     exception when others then if sqlcode <> -942 then raise; end if;
 end;
 """
-
 CREATE_OWNER_LOOKUP_TABLE_SQL = "CREATE TABLE BEACON_OWNERS_LOOKUP (PK_BEACON_OWNER_ID NUMBER(28), API_ID VARCHAR(36))"
-
-INSERT_INTO_LOOKUP_TABLE_SQL = "INSERT INTO BEACON_OWNERS_LOOKUP (PK_BEACON_OWNER_ID, API_ID) VALUES(:pk_beacon_owner_id, api_id)"
+INSERT_INTO_LOOKUP_TABLE_SQL = "INSERT INTO BEACON_OWNERS_LOOKUP (PK_BEACON_OWNER_ID, API_ID) VALUES(:pk_key, :api_id)"
 
 api_url_owner = get_config_parser().get(
     "LOCAL", "api_url") + '/owner'
@@ -175,8 +172,6 @@ def post_owners_to_api(owners):
     for owner in owners:
         post_owner(owner)
 
-    print(f'Posted {len(results)} owners')
-
     return results
 
 
@@ -194,13 +189,14 @@ def _print_results(results):
 
 def populate_lookup_table(results):
     print('Populating owner PK -> API id lookup table')
-    for result in results:
-        if result.get('status') == 201:
-            with legacy_database_helper.get_db_connection() as conn:
-                with conn.cursor() as cursor:
+    with legacy_database_helper.get_db_connection() as conn:
+        with conn.cursor() as cursor:
+            for result in results:
+                if result.get('status') == 201:
                     api_id = result.get('api_id')
                     for pk_key in result.get('pk_keys'):
                         cursor.execute(INSERT_INTO_LOOKUP_TABLE_SQL, [pk_key, api_id])
+            conn.commit()
 
 
 def _now():
@@ -213,3 +209,4 @@ if __name__ == '__main__':
     create_owner_lookup_table()
     results = post_owners_to_api(aggregated_owners)
     _print_results(results)
+    populate_lookup_table(results)
