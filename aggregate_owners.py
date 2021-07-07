@@ -153,7 +153,8 @@ def post_owners_to_api(owners):
                     'postcode': owner_details.get('post_code'),
                     'country': owner_details.get('country'),
                     'createdDate': f'{owner_details.get("created_date")}',
-                    'lastModifiedDate': f'{owner_details.get("last_modified_date")}'
+                    'lastModifiedDate': f'{owner_details.get("last_modified_date")}',
+                    'migrated': True
                 }
             }
         }
