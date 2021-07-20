@@ -14,4 +14,4 @@ RUN ./install-instantclient.sh
 FROM base AS etl
 
 ENTRYPOINT ["python"]
-CMD ["push_single_owner_to_api.py"]
+CMD ["etl.py"]
