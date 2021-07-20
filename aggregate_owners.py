@@ -16,7 +16,7 @@ CREATE_OWNER_LOOKUP_TABLE_SQL = "CREATE TABLE BEACON_OWNERS_LOOKUP (PK_BEACON_OW
 INSERT_INTO_LOOKUP_TABLE_SQL = "INSERT INTO BEACON_OWNERS_LOOKUP (PK_BEACON_OWNER_ID, API_ID) VALUES(:pk_key, :api_id)"
 
 api_url_owner = get_config_parser().get(
-    "LOCAL", "api_url") + '/owner'
+    "LOCAL", "api_url") + '/migrate/owner'
 
 
 def get_aggregated_owners():
@@ -204,10 +204,14 @@ def _now():
     return datetime.now()
 
 
-if __name__ == '__main__':
+def run_aggregate_owners():
     print(f'Starting aggregating owners {_now()}')
     aggregated_owners = get_aggregated_owners()
     create_owner_lookup_table()
     results = post_owners_to_api(aggregated_owners)
     _print_results(results)
     populate_lookup_table(results)
+
+
+if __name__ == '__main__':
+    run_aggregate_owners()
