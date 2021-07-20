@@ -24,7 +24,7 @@ The Oracle [instantclient](https://www.oracle.com/database/technologies/instant-
 To download the instantclient go to:
 
 - [Download macOS instantclient](https://download.oracle.com/otn_software/mac/instantclient/198000/instantclient-basic-macos.x64-19.8.0.0.0dbru.zip)
-- Unzip to directory `./instantclient_19_8`
+- Unzip to directory `./instantclient_19_8` in this repository's directory
 - Run `pipenv run python run_cleansing_rules.py`
 
 **NOTE: When you run this for the first time macOS cannot verify the client files. You will have to open up: System Preferences > Security & Privacy and allow access to the files that cx_Oracle requires**
