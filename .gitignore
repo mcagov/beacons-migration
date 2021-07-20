@@ -6,3 +6,8 @@
 instantclient_19_8
 safe_aggregates.csv
 bulk_csv
+
+# Secrets
+account-name.txt
+container-name.txt
+sas-token.txt
