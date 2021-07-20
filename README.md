@@ -12,7 +12,7 @@ Dependencies for the project are managed through [pipenv](https://pipenv.pypa.io
 ## Connecting to the Oracle DB
 
 The Oracle DB connection string is set in the [legacy database helper file](./helpers/legacy_database_helper.py).  To standup a local Oracle DB instance
-see the docs in the [Beacons Oracle GitHub repo](https://github.com/mcagov/beacons-oracle).
+see the docs in the [Beacons Oracle GitHub repo](https://github.com/mcagov/beacons-oracle#restoring-the-latest-backups-locally).
 
 ## Installing Dependencies
 
@@ -25,7 +25,7 @@ To download the instantclient go to:
 
 - [Download macOS instantclient](https://download.oracle.com/otn_software/mac/instantclient/198000/instantclient-basic-macos.x64-19.8.0.0.0dbru.zip)
 - Unzip to directory `./instantclient_19_8`
-- Run `pipenv run python push_single_owner_to_api.py`
+- Run `pipenv run python run_cleansing_rules.py`
 
 **NOTE: When you run this for the first time macOS cannot verify the client files. You will have to open up: System Preferences > Security & Privacy and allow access to the files that cx_Oracle requires**
 
