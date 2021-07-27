@@ -1,4 +1,4 @@
-# Docker Compose file used within GitHub Actions CI/CD for performing the ETL migration
+# Docker Compose file used within GitHub Actions CI/CD for performing the ETL migration
 version: "3.8"
 
 services:

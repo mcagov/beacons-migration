@@ -21,3 +21,11 @@ jobs:
           aws-region: eu-west-2
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
+      - name: Bring up Oracle DB
+        run: |
+          docker-compose up -d oracle-db
+          sleep 20
+          docker logs oracle-db
+      - name: Stop containers
+        if: always()
+        run: docker-compose down
