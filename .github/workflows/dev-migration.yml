@@ -25,4 +25,6 @@ jobs:
         run: ./run-migration.sh
       - name: Stop containers
         if: always()
-        run: docker-compose down
+        run: |
+          docker logs oracle-db
+          docker-compose down

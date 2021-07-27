@@ -5,11 +5,11 @@ function wait_for_container_logs()
   local container_name=$1
   local message=$2
   local attempts=0
-  local max_attempts=180
+  local max_attempts=120
 
   while ! docker logs "${container_name}" 2>&1 | grep -q "${message}";
   do
-    sleep 1
+    sleep 2
     echo "Waiting for ${container_name} logs to contain the message: ${message}"
     ((attempts++)) && ((attempts==max_attempts)) && echo "$(docker logs ${container_name})" && exit 1
   done
