@@ -15,8 +15,7 @@ end;
 CREATE_OWNER_LOOKUP_TABLE_SQL = "CREATE TABLE BEACON_OWNERS_LOOKUP (PK_BEACON_OWNER_ID NUMBER(28), API_ID VARCHAR(36))"
 INSERT_INTO_LOOKUP_TABLE_SQL = "INSERT INTO BEACON_OWNERS_LOOKUP (PK_BEACON_OWNER_ID, API_ID) VALUES(:pk_key, :api_id)"
 
-api_url_owner = get_config_parser().get(
-    "LOCAL", "api_url") + '/migrate/owner'
+api_url_owner = get_config_parser().get("api_url") + '/migrate/owner'
 
 
 def get_aggregated_owners():
