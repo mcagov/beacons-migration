@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from aggregate_owners import aggregate_owners
+from src.aggregate_owners import aggregate_owners
 
 
 def test_aggregation_of_empty_list():

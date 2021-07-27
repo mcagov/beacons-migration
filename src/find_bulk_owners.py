@@ -11,7 +11,7 @@ Record all email addresses where safe aggregation succeeds.
 
 
 def find_bulk_beacon_owners(bulk_beacon_number):
-    os.makedirs("bulk_csv", exist_ok=True)
+    os.makedirs("../bulk_csv", exist_ok=True)
     with get_db_connection() as conn:
         with conn.cursor() as cursor:
             query = cursor.execute("""
@@ -28,10 +28,10 @@ def find_bulk_beacon_owners(bulk_beacon_number):
             total_fail_agg = 0
             total_safe_agg = 0
             total_manual_agg = 0
-            fail_agg_csvfile = open('safe_aggregates.csv', 'w', newline='')
+            fail_agg_csvfile = open('../safe_aggregates.csv', 'w', newline='')
             fail_agg_csvwriter = csv.writer(fail_agg_csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             fail_agg_csvwriter.writerow(['total', 'email'])
-            safe_agg_csvfile = open('safe_aggregates.csv', 'w', newline='')
+            safe_agg_csvfile = open('../safe_aggregates.csv', 'w', newline='')
             safe_agg_csvwriter = csv.writer(safe_agg_csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             safe_agg_csvwriter.writerow(['total', 'email'])
             while True:

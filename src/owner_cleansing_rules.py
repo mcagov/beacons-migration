@@ -1,11 +1,8 @@
-import sys
 import re
 import csv
 
-sys.path.append('./helpers')
 
-import config_helper  # noqa
-import legacy_database_helper  # noqa
+import src.helpers.legacy_database_helper as legacy_database_helper
 
 db_connection = legacy_database_helper.get_db_connection()
 cursor = db_connection.cursor()
@@ -120,7 +117,7 @@ def _extract_by_regex(regex, field):
 def _get_broken_countries_dict():
     countries = {}
 
-    with open('./assets/mca_countries.csv') as csvfile:
+    with open('assets/mca_countries.csv') as csvfile:
         csvreader = csv.DictReader(csvfile)
         for row in csvreader:
             correct_country = row['correct_country']

@@ -1,4 +1,4 @@
-from aggregate_owners import hash_owner
+from src.aggregate_owners import hash_owner
 
 
 def test_hash_owner_is_a_match_for_the_same_user():

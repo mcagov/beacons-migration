@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from aggregate_owners import earliest_date, latest_date
+from src.aggregate_owners import earliest_date, latest_date
 
 
 def test_returns_the_earliest_date():

@@ -12,7 +12,7 @@ Dependencies for the project are managed through [pipenv](https://pipenv.pypa.io
 
 ## Connecting to the Oracle DB
 
-The Oracle DB connection string is set in the [legacy database helper file](./helpers/legacy_database_helper.py). To standup a local Oracle DB instance
+The Oracle DB connection string is set in the [legacy database helper file](src/helpers/legacy_database_helper.py). To standup a local Oracle DB instance
 see the docs in the [Beacons Oracle GitHub repo](https://github.com/mcagov/beacons-oracle#restoring-the-latest-backups-locally).
 
 ## Installing Dependencies
