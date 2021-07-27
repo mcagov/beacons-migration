@@ -8,6 +8,8 @@ There are three GitHub Actions pipelines setup to run the migration against the 
 
 Each pipeline will standup the latest backups for the Oracle DB and run the migration against each environment. TODO: there will be a report(s) uploaded to GitHub where you can inspect the result of the migration run.
 
+The pipelines require secrets for things such as API migration endpoint basic auth username/password. These are stored as secrets [within the repo](https://github.com/mcagov/beacons-etl/settings/secrets/actions) and exposed as environment variables in the migration job in the GitHub Action for each pipeline.
+
 See the GitHub Actions yaml files for more information.
 
 ## Running the migration locally
