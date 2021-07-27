@@ -24,8 +24,11 @@ jobs:
       - name: Bring up Oracle DB
         run: |
           docker-compose up -d oracle-db
-          sleep 20
+          sleep 40
           docker logs oracle-db
+      - name: Run Migration
+        run: |
+          docker-compose up etl
       - name: Stop containers
         if: always()
         run: docker-compose down
