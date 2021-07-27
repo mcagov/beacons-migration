@@ -20,23 +20,13 @@ except Exception as err:
 
 
 def get_db_connection():
-    timeout = 1
-    attempt = 0
-    max_tries = 60
-    while attempt < max_tries:
-        try:
-            conn = cx_Oracle.connect(
-                user="system",
-                password="oracle",
-                dsn="oracle-db/XE")
-            # Set to desired Oracle schema
-            conn.current_schema = 'CERSSVD_SCHEMA'
-            print("Successfully connected to Oracle Database")
-            break
-        except Exception as err:
-            print(f'Unable to connect to Oracle DB, re-trying attempt {attempt}, sleeping for {timeout} seconds')
-            print(err)
-            attempt += 1
-            sleep(timeout)
+    # TODO: Update oracle-db to use configurable oracle_uri from config
+    conn = cx_Oracle.connect(
+        user="system",
+        password="oracle",
+        dsn="oracle-db/XE")
+    # Set to desired Oracle schema
+    conn.current_schema = 'CERSSVD_SCHEMA'
+    print("Successfully connected to Oracle Database")
 
     return conn

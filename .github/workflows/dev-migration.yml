@@ -21,13 +21,8 @@ jobs:
           aws-region: eu-west-2
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
-      - name: Bring up Oracle DB
-        run: |
-          docker-compose up -d oracle-db
-          docker logs oracle-db
-      - name: Run Migration
-        run: |
-          docker-compose up etl
+      - name: Run migration
+        run: ./run-migration.sh
       - name: Stop containers
         if: always()
         run: docker-compose down
