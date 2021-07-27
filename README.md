@@ -4,7 +4,7 @@ Please see the [Beacons Miro board](https://miro.com/app/board/o9J_lRB60BQ=/) fo
 
 # Running the migration
 
-There are three GitHub Actions pipelines setup to run the migration against the [dev](https://github.com/mcagov/beacons-etl/actions/workflows/dev-migration.yml), [staging]((https://github.com/mcagov/beacons-etl/actions/workflows/staging-migration.yml), and [production](https://github.com/mcagov/beacons-etl/actions/workflows/production-migration.yml) environments.
+There are three GitHub Actions pipelines setup to run the migration against the [Development](https://github.com/mcagov/beacons-etl/actions/workflows/dev-migration.yml), [Staging](https://github.com/mcagov/beacons-etl/actions/workflows/staging-migration.yml), and [Production](https://github.com/mcagov/beacons-etl/actions/workflows/production-migration.yml) environments.
 
 Each pipeline will standup the latest backups for the Oracle DB and run the migration against each environment. TODO: there will be a report(s) uploaded to GitHub where you can inspect the result of the migration run.
 
