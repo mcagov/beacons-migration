@@ -19,6 +19,7 @@ function run_oracle_backups()
 {
   local log_message="Finished importing Beacon backups"
   echo "Standing up Oracle DB backups"
+  docker-compose pull oracle-db
   docker-compose up -d oracle-db
 
   echo "Waiting for Oracle DB logs to container the message ${log_message}"
