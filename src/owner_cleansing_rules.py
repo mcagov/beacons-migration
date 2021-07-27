@@ -289,6 +289,7 @@ def run_owner_cleansing_rules():
                                create_dt, update_user_id, update_dt, versioning)
             i = i + 1
 
+    print(f'Cleaned {i} owner records')
     print('Committing and closing db connection')
     db_connection.commit()
     cursor.close()

@@ -32,6 +32,7 @@ def get_db_connection():
             # Set to desired Oracle schema
             conn.current_schema = 'CERSSVD_SCHEMA'
             print("Successfully connected to Oracle Database")
+            break
         except Exception as err:
             print(f'Unable to connect to Oracle DB, re-trying attempt {attempt}, sleeping for {timeout} seconds')
             print(err)
