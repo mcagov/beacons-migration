@@ -4,25 +4,37 @@ function wait_for_container_logs()
 {
   local container_name=$1
   local message=$2
-  local attempts=0
   local max_attempts=180
+  local success=0
 
-  while ! docker logs "${container_name}" | grep -qE "${message}";
-  do
+  echo
+  echo -n "Waiting for ${container_name} logs to contain the message: ${message}"
+
+  for (( try=0; try < max_attempts; ++try )); do
+    if docker logs "${container_name}" 2>&1 | grep -q "${message}"; then
+      success=1
+      break
+    fi
+    echo -n "."
     sleep 2
-    echo "Waiting for ${container_name} logs to contain the message: ${message}"
-    ((attempts++)) && ((attempts==max_attempts)) && echo "$(docker logs ${container_name})" && exit 1
   done
+
+  if (( success )); then
+    echo ""
+  else
+    echo "${container_name} not started as expected"
+    docker logs ${container_name}
+    exit 1
+  fi
 }
 
 function run_oracle_backups()
 {
-  local log_message="Finished importing Beacon backups"
+  local log_message="User created"
   echo "Standing up Oracle DB backups"
   docker-compose pull oracle-db
   docker-compose up -d oracle-db
 
-  echo "Waiting for Oracle DB logs to container the message ${log_message}"
   wait_for_container_logs "oracle-db" "${log_message}"
 }
 
