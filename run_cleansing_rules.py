@@ -270,7 +270,7 @@ def _cleanse_owner_row(pk_beacon_owner_id, fk_beacon_id, owner_name, company_nam
     insert_cursor.close()
 
 
-def run_rules():
+def run_owner_cleansing_rules():
     print('Running through cleansing rules')
 
     broken_countries = _get_broken_countries_dict()
@@ -317,4 +317,4 @@ def run_rules():
 
 
 if __name__ == '__main__':
-    run_rules()
+    run_owner_cleansing_rules()

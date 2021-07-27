@@ -4,7 +4,7 @@ from datetime import datetime
 import cx_Oracle
 import requests
 
-from run_cleansing_rules import run_rules
+from run_cleansing_rules import run_owner_cleansing_rules
 from aggregate_owners import run_aggregate_owners
 
 cx_Oracle.init_oracle_client(lib_dir=os.environ.get("HOME") + "/instantclient_19_8")
@@ -53,7 +53,4 @@ _postOwners()
 if __name__ == '__main__':
     print(f'Running ETL migration {_now()}')
     print(f'Running cleansing owner rules {_now()}')
-    run_rules()
-    print(f'Finished cleansing owners.  Running aggregation of owners and posting to the API {_now()}')
-    run_aggregate_owners()
-    print(f'Finished aggregating owners {_now()}')
+    run_owner_cleansing_rules()
