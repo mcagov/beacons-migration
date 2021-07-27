@@ -4,7 +4,7 @@ from datetime import datetime
 import cx_Oracle
 import requests
 
-from run_cleansing_rules import run_owner_cleansing_rules
+from owner_cleansing_rules import run_owner_cleansing_rules
 from aggregate_owners import run_aggregate_owners
 
 cx_Oracle.init_oracle_client(lib_dir=os.environ.get("HOME") + "/instantclient_19_8")

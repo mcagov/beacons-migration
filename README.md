@@ -7,17 +7,19 @@ Please see the [Beacons Miro board](https://miro.com/app/board/o9J_lRB60BQ=/) fo
 Ensure python 3.5+ is installed
 
 Dependencies for the project are managed through [pipenv](https://pipenv.pypa.io/en/latest/#install-pipenv-today). To install `pipenv` run:
+
 - `python3 -m pip install pipenv`
 
 ## Connecting to the Oracle DB
 
-The Oracle DB connection string is set in the [legacy database helper file](./helpers/legacy_database_helper.py).  To standup a local Oracle DB instance
+The Oracle DB connection string is set in the [legacy database helper file](./helpers/legacy_database_helper.py). To standup a local Oracle DB instance
 see the docs in the [Beacons Oracle GitHub repo](https://github.com/mcagov/beacons-oracle#restoring-the-latest-backups-locally).
 
 ## Installing Dependencies
 
 To install the dependencies for the project run:
-- `pipenv install`
+
+- `pipenv install --dev`
 
 The Oracle [instantclient](https://www.oracle.com/database/technologies/instant-client/downloads.html) is required to connect to the Oracle instance.
 
