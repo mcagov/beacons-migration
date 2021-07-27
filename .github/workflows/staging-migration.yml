@@ -1,4 +1,4 @@
-name: 'Dev Migration Pipeline'
+name: 'Staging Migration Pipeline'
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ jobs:
     name: Run Beacons migration
     runs-on: ubuntu-latest
     env:
-      ENVIRONMENT: DEVELOPMENT
+      ENVIRONMENT: STAGING
 
     steps:
       - name: Checkout repository
