@@ -5,7 +5,7 @@ function wait_for_container_logs()
   local container_name=$1
   local message=$2
   local attempts=0
-  local max_attempts=90
+  local max_attempts=120
 
   while ! docker logs "${container_name}" 2>&1 | grep -q "${message}";
   do
@@ -27,7 +27,7 @@ function run_oracle_backups()
 
 function run_migration()
 {
-  echo "Attempting to run migration"
+  echo "Attempting to run the migration"
   docker-compose up etl
 }
 
