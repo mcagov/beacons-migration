@@ -7,8 +7,7 @@ function wait_for_container_logs()
   local max_attempts=180
   local success=0
 
-  echo -n "Waiting for ${container_name} logs to contain the message: ${message}"
-
+  echo "Waiting for ${container_name} logs to contain the message: ${message}"
   for (( try=0; try < max_attempts; ++try )); do
     if docker logs "${container_name}" 2>&1 | grep -q "${message}"; then
       success=1
@@ -31,7 +30,7 @@ function run_oracle_backups()
 {
   local log_message="Finished importing Beacon backups"
   echo "Standing up Oracle DB backups"
-  docker-compose pull oracle-db
+  docker-compose pull -q oracle-db
   docker-compose up -d oracle-db
 
   wait_for_container_logs "oracle-db" "${log_message}"
