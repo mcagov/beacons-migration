@@ -24,7 +24,6 @@ jobs:
       - name: Bring up Oracle DB
         run: |
           docker-compose up -d oracle-db
-          sleep 60
           docker logs oracle-db
       - name: Run Migration
         run: |
