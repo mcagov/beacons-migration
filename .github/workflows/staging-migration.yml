@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENVIRONMENT: STAGING
+      API_BASIC_AUTH_USERNAME: ${{ secrets.STAGING_API_BASIC_AUTH_USERNAME }}
+      API_BASIC_AUTH_PASSWORD: ${{ secrets.STAGING_API_BASIC_AUTH_PASSWORD }}
 
     steps:
       - name: Checkout repository

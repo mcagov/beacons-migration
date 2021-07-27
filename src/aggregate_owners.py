@@ -2,8 +2,9 @@ from datetime import datetime
 
 import requests
 
-from helpers import legacy_database_helper
-from helpers.config_helper import get_config_parser
+from src.helpers import legacy_database_helper
+from src.helpers.config_helper import get_config_parser
+from src.helpers.api_basic_auth import get_api_basic_auth
 
 GET_ALL_OWNERS_QUERY = "SELECT * FROM BEACON_OWNERS_CLEANED ORDER BY CREATE_DT DESC"
 DROP_OWNER_LOOKUP_TABLE_SQL = """
@@ -158,7 +159,7 @@ def post_owners_to_api(owners):
             }
         }
 
-        response = requests.post(api_url_owner, json=data)
+        response = requests.post(api_url_owner, json=data, auth=get_api_basic_auth())
         results.append({
             'status': response.status_code,
             'body': response.content,

@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENVIRONMENT: PRODUCTION
+      API_BASIC_AUTH_USERNAME: ${{ secrets.PROD_API_BASIC_AUTH_USERNAME }}
+      API_BASIC_AUTH_PASSWORD: ${{ secrets.PROD_API_BASIC_AUTH_PASSWORD }}
 
     steps:
       - name: Checkout repository
