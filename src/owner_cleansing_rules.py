@@ -1,7 +1,6 @@
 import re
 import csv
 
-
 import src.helpers.legacy_database_helper as legacy_database_helper
 
 db_connection = legacy_database_helper.get_db_connection()
@@ -14,10 +13,6 @@ postcode_regex = '([A-Z][A-HJ-Y]?\d[A-Z\d]? ?\d[A-Z]{2}|GIR ?0A{2})'
 broken_countries = {}
 
 
-def _print_affected_rows(cursor):
-    print('Affected rows: ', cursor.rowcount)
-
-
 def _create_clean_owners_table():
     cursor.execute("""
         begin
@@ -26,7 +21,6 @@ def _create_clean_owners_table():
         end;""")
     cursor.execute(
         """CREATE TABLE BEACON_OWNERS_CLEANED AS SELECT * FROM BEACON_OWNERS WHERE 1=0""")
-    _print_affected_rows(cursor)
 
 
 def _get_batch_of_owners(query):

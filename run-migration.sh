@@ -7,7 +7,6 @@ function wait_for_container_logs()
   local max_attempts=180
   local success=0
 
-  echo
   echo -n "Waiting for ${container_name} logs to contain the message: ${message}"
   for (( try=0; try < max_attempts; ++try )); do
     if docker logs "${container_name}" 2>&1 | grep -q "${message}"; then
