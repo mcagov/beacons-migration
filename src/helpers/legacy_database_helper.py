@@ -21,7 +21,6 @@ except Exception as err:
 
 def get_db_connection():
     oracle_uri = get_config_parser().get('oracle_uri')
-    print(type(oracle_uri))
     conn = cx_Oracle.connect(
         user="system",
         password="oracle",
