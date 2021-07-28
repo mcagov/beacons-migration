@@ -46,6 +46,7 @@ def get_uses(beacon_id):
             'localManagementId': local_management_id,
             'beaconNsn': beacon_nsn,
             'beaconPartNumber': beacon_part_number,
+            'modStatus': mod_status,
             'notes': notes,
             'pennantNumber': pennant_number,
             'aircraftDescription': aircraft_description,
