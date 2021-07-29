@@ -1,7 +1,6 @@
 import re
 import csv
 
-
 import src.helpers.legacy_database_helper as legacy_database_helper
 
 db_connection = legacy_database_helper.get_db_connection()
@@ -14,10 +13,6 @@ postcode_regex = '([A-Z][A-HJ-Y]?\d[A-Z\d]? ?\d[A-Z]{2}|GIR ?0A{2})'
 broken_countries = {}
 
 
-def _print_affected_rows(cursor):
-    print('Affected rows: ', cursor.rowcount)
-
-
 def _create_clean_owners_table():
     cursor.execute("""
         begin
@@ -26,7 +21,6 @@ def _create_clean_owners_table():
         end;""")
     cursor.execute(
         """CREATE TABLE BEACON_OWNERS_CLEANED AS SELECT * FROM BEACON_OWNERS WHERE 1=0""")
-    _print_affected_rows(cursor)
 
 
 def _get_batch_of_owners(query):
@@ -199,8 +193,6 @@ def _cleanse_owner_row(pk_beacon_owner_id, fk_beacon_id, owner_name, company_nam
     mobile_1 = _extract_by_regex(email_regex, mobile_1)
     mobile_2 = _extract_by_regex(email_regex, mobile_2)
 
-    print('valid_emails: ', valid_emails)
-
     valid_phone_numbers = _get_valid_phone_numbers_list_from_fields(
         email, phone_1, phone_2, mobile_1, mobile_1)
 
@@ -210,29 +202,19 @@ def _cleanse_owner_row(pk_beacon_owner_id, fk_beacon_id, owner_name, company_nam
     mobile_1 = _extract_by_regex(phone_regex, mobile_1)
     mobile_2 = _extract_by_regex(phone_regex, mobile_2)
 
-    print('valid_phone_numbers: ', valid_phone_numbers)
-
     valid_country = _get_valid_country_from_fields(
         address_1, address_2, address_3, address_4, post_code, country)
-
-    print('valid_country: ', valid_country)
 
     valid_uk_postcodes = []
     if valid_country == 'UNITED KINGDOM' or valid_country == None:
         valid_uk_postcodes = _get_valid_uk_postcode_list_from_fields(
             address_1, address_2, address_3, address_4, post_code, country)
 
-    print('valid_uk_postcodes: ', valid_uk_postcodes)
-
     uk_mobiles = _get_valid_uk_mobile_list_from_valid_phone_list(
         valid_phone_numbers)
 
-    print('uk_mobiles: ', uk_mobiles)
-
     other_phone_numbers = _get_valid_phone_number_list_from_valid_phone_list(
         valid_phone_numbers)
-
-    print('other_phone_numbers: ', other_phone_numbers)
 
     # Start setting new values
 
@@ -243,9 +225,6 @@ def _cleanse_owner_row(pk_beacon_owner_id, fk_beacon_id, owner_name, company_nam
     mobile_1 = _set_mobile_1(mobile_1, uk_mobiles)
     mobile_2 = _set_mobile_2(mobile_2, uk_mobiles)
     email = _set_email(email, valid_emails)
-
-    print('Proposed new values:- ', 'email: ', email, ', post_code: ', post_code, ', country: ', country, ', phone_1: ',
-          phone_1, ', phone_2: ', phone_2, ', mobile_1: ', mobile_1, ', mobile_2: ', mobile_2)
 
     # Insert record into DB
     insert_sql = """
@@ -296,17 +275,14 @@ def run_owner_cleansing_rules():
             print("No more owner records found")
             break
 
-        print("Processing row count: ", len(owners))
         for pk_beacon_owner_id, fk_beacon_id, owner_name, company_name, care_of, address_1, address_2, address_3, address_4, country, post_code, phone_1, phone_2, mobile_1, mobile_2, fax, email, is_main, create_user_id, create_dt, update_user_id, update_dt, versioning in owners:
             _cleanse_owner_row(pk_beacon_owner_id, fk_beacon_id, owner_name, company_name, care_of, address_1,
                                address_2, address_3, address_4, country,
                                post_code, phone_1, phone_2, mobile_1, mobile_2, fax, email, is_main, create_user_id,
                                create_dt, update_user_id, update_dt, versioning)
             i = i + 1
-            print('Processing index #: ', i)
 
-            print('Breaking at 100 records, TODO remove later')
-
+    print(f'Cleaned {i} owner records')
     print('Committing and closing db connection')
     db_connection.commit()
     cursor.close()

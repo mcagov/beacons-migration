@@ -2,6 +2,24 @@
 
 Please see the [Beacons Miro board](https://miro.com/app/board/o9J_lRB60BQ=/) for more information on the migration.
 
+# Running the migration
+
+There are three GitHub Actions pipelines setup to run the migration against the [Development](https://github.com/mcagov/beacons-etl/actions/workflows/dev-migration.yml), [Staging](https://github.com/mcagov/beacons-etl/actions/workflows/staging-migration.yml), and [Production](https://github.com/mcagov/beacons-etl/actions/workflows/production-migration.yml) environments.
+
+Each pipeline will standup the latest backups for the Oracle DB and run the migration against each environment. TODO: there will be a report(s) uploaded to GitHub where you can inspect the result of the migration run.
+
+The pipelines require secrets for things such as API migration endpoint basic auth username/password. These are stored as secrets [within the repo](https://github.com/mcagov/beacons-etl/settings/secrets/actions) and exposed as environment variables in the migration job in the GitHub Action for each pipeline.
+
+See the GitHub Actions yaml files for more information.
+
+## Running the migration locally
+
+Ensure that you have the Oracle DB containing the existing records, and the Beacons API stood up locally.
+
+Then, from the root of the project run the following:
+
+> pipenv run python etl.py
+
 ## MAC setup
 
 Ensure python 3.5+ is installed
@@ -40,9 +58,3 @@ To download the instantclient go to:
 ## IDE setup
 
 If using PyCharm for your IDE setup, see the [docs for configuring pipenv](https://www.jetbrains.com/help/pycharm/pipenv.html#pipenv-existing-project).
-
-## Running a script
-
-cd to script in terminal and run:
-
-> pipenv run python _script_to_run_.py

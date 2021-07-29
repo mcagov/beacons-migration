@@ -2,6 +2,7 @@ import os
 import sys
 
 import cx_Oracle
+from src.helpers.config_helper import get_config_parser
 
 try:
     if sys.platform.startswith("darwin"):
@@ -19,11 +20,13 @@ except Exception as err:
 
 
 def get_db_connection():
+    oracle_uri = get_config_parser().get('oracle_uri')
     conn = cx_Oracle.connect(
         user="system",
         password="oracle",
-        dsn="localhost/XE")
+        dsn=f'{oracle_uri}/XE')
     # Set to desired Oracle schema
     conn.current_schema = 'CERSSVD_SCHEMA'
     print("Successfully connected to Oracle Database")
+
     return conn
