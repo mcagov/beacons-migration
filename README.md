@@ -18,7 +18,7 @@ Ensure that you have the Oracle DB containing the existing records, and the Beac
 
 Then, from the root of the project run the following:
 
-> pipenv run python _script_to_run_.py
+> pipenv run python etl.py
 
 ## MAC setup
 
