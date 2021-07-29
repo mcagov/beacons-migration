@@ -226,24 +226,26 @@ def _cleanse_owner_row(pk_beacon_owner_id, fk_beacon_id, owner_name, company_nam
     mobile_2 = _set_mobile_2(mobile_2, uk_mobiles)
     email = _set_email(email, valid_emails)
 
-    # Insert record into DB
-    insert_sql = """
-            insert into BEACON_OWNERS_CLEANED(
-                PK_BEACON_OWNER_ID, FK_BEACON_ID, OWNER_NAME, COMPANY_NAME,
-                CARE_OF, ADDRESS_1, ADDRESS_2, ADDRESS_3, ADDRESS_4, COUNTRY, POST_CODE,
-                PHONE_1, PHONE_2, MOBILE_1, MOBILE_2, FAX, EMAIL, IS_MAIN, CREATE_USER_ID,
-                CREATE_DT, UPDATE_USER_ID, UPDATE_DT, VERSIONING)
-                values(:pk_beacon_owner_id, :fk_beacon_id, :owner_name, :company_name, :care_of, :address_1,
-                :address_2, :address_3, :address_4, :country, :post_code, :phone_1, :phone_2, :mobile_1, :mobile_2,
-                :fax, :email, :is_main, :create_user_id, :create_dt, :update_user_id, :update_dt, :versioning)"""
+    if (owner_name != None and owner_name != 'DELETED' or company_name != None or care_of != None or address_1 != None or address_2 != None or address_3 != None or address_4 != None or country != None or post_code != None or phone_1 != None or phone_2 != None or mobile_1 != None or mobile_2 != None or fax != None or email != None):
+        
+        # Insert record into DB
+        insert_sql = """
+                insert into BEACON_OWNERS_CLEANED(
+                    PK_BEACON_OWNER_ID, FK_BEACON_ID, OWNER_NAME, COMPANY_NAME,
+                    CARE_OF, ADDRESS_1, ADDRESS_2, ADDRESS_3, ADDRESS_4, COUNTRY, POST_CODE,
+                    PHONE_1, PHONE_2, MOBILE_1, MOBILE_2, FAX, EMAIL, IS_MAIN, CREATE_USER_ID,
+                    CREATE_DT, UPDATE_USER_ID, UPDATE_DT, VERSIONING)
+                    values(:pk_beacon_owner_id, :fk_beacon_id, :owner_name, :company_name, :care_of, :address_1,
+                    :address_2, :address_3, :address_4, :country, :post_code, :phone_1, :phone_2, :mobile_1, :mobile_2,
+                    :fax, :email, :is_main, :create_user_id, :create_dt, :update_user_id, :update_dt, :versioning)"""
 
-    insert_cursor = db_connection.cursor()
-    insert_cursor.execute(insert_sql,
-                          [pk_beacon_owner_id, fk_beacon_id, owner_name, company_name, care_of, address_1, address_2,
-                           address_3, address_4,
-                           country, post_code, phone_1, phone_2, mobile_1, mobile_2, fax, email, is_main,
-                           create_user_id, create_dt, update_user_id, update_dt, versioning])
-    insert_cursor.close()
+        insert_cursor = db_connection.cursor()
+        insert_cursor.execute(insert_sql,
+                                [pk_beacon_owner_id, fk_beacon_id, owner_name, company_name, care_of, address_1, address_2,
+                                address_3, address_4,
+                                country, post_code, phone_1, phone_2, mobile_1, mobile_2, fax, email, is_main,
+                                create_user_id, create_dt, update_user_id, update_dt, versioning])
+        insert_cursor.close()
 
 
 def run_owner_cleansing_rules():
