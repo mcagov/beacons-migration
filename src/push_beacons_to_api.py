@@ -2,6 +2,7 @@ from datetime import datetime
 import requests
 
 import src.get_beacons as get_beacons
+from src.beacon_mapper import get_request_body
 from src.helpers.config_helper import get_config_parser
 
 api_url_migration = get_config_parser().get("api_url") + '/migration'
@@ -11,62 +12,26 @@ def push_beacons():
     _post_beacons_to_api(beacons)
 
 def _post_beacons_to_api(beacons):
-    print(f'Printing single beacon {_now()}')
+    print(f'Printing beacons {_now()}')
     # TODO: update logging
     # print(f'Posting beacons {_now()}')
 
     results = []
 
     for beacon in beacons:
-        _post_beacon(beacon, results)
+        request_body = get_request_body(beacon)
+        _post_beacon(request_body, results)
     
     _print_results(results)
 
 def _now():
     return datetime.now()
 
-def _post_beacon(beacon, results):
-
-    body = {
-        'type': 'legacyRegistration',
-        'data': {
-            'attributes': {
-                'pkBeaconId': beacon.get('pkBeaconId'),
-                'statusCode': beacon.get('statusCode'),
-                'isWithdrawn': beacon.get('isWithdrawn'),
-                'isPending': beacon.get('isPending'),
-                'departRefId': beacon.get('departRefId'),
-                'hexId': beacon.get('hexId'),
-                'serialNumber': beacon.get('serialNumber'),
-                'cospasSarsatNumber': beacon.get('cospasSarsatNumber'),
-                'manufacturerSerialNumber': beacon.get('manufacturerSerialNumber'),
-                'coding': beacon.get('coding'),
-                'firstRegistrationDate': beacon.get('firstRegistrationDate'),
-                'lastServiceDate': beacon.get('lastServiceDate'),
-                'batteryExpiryDate': beacon.get('batteryExpiryDate'),
-                'withdrawnReason': beacon.get('withdrawnReason'),
-                'isArchived': beacon.get('isArchived'),
-                'createUserId': beacon.get('createUserId'),
-                'createDate': beacon.get('createDate'),
-                'updateUserId': beacon.get('updateUserId'),
-                'updateDate': beacon.get('updateDate'),
-                'versioning': beacon.get('versioning'),
-                'emergencyContact': beacon.get('emergencyContact'),
-                'notes': beacon.get('notes'),
-                'uses': beacon.get('uses'),
-                'migrated': True,
-                'manufacturer': beacon.get('manufacturer'),
-                'beaconType': beacon.get('beaconType'),
-                'model': beacon.get('model'),
-                'protocol': beacon.get('protocol')
-            }
-        }
-    }
-    
-    print(body)
+def _post_beacon(request_body, results):
+    print(request_body)
 
     # TODO: Post beacon to API and collect response
-    # response = requests.post(api_url_migration, json=body)
+    # response = requests.post(api_url_migration, json=request_body)
     # results.append({
     #   'status': response.status_code,
     #   'body': response.content,

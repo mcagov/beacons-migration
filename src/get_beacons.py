@@ -17,7 +17,7 @@ def get_beacons():
         fk_model_code, fk_protocol_type_id, fk_beacon_type_code, \
         fk_manufacturer_id, manufacturer_serial_no, coding, \
         first_registration_dt, last_service_date, battery_expiry_date, \
-        emergency_contact, withdrawn_reason, notes, is_archived, create_user_id, \
+        emergency_contact, withdrawn_reason, note, is_archived, create_user_id, \
         create_dt, update_user_id, update_dt, versioning,  in beacons:
 
         uses = get_beacon_uses.get_uses(pk_beacon_id)
@@ -46,11 +46,7 @@ def get_beacons():
             'emergencyContact': {
                 'details': emergency_contact
             },
-            'notes': [
-                {
-                "value": notes
-                }
-            ],
+            'note': note,
             'uses': [uses],
             'manufacturer': _get_beacon_manufacturer(fk_manufacturer_id),
             'beaconType': _get_beacon_type(fk_beacon_type_code),

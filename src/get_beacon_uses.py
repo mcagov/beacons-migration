@@ -16,7 +16,7 @@ def get_uses(beacon_id):
         bit_24_address_hex, aircraft_registration_mark, fk_land_use_id, area_of_use, \
         trip_info, rig_name, beacon_position, position, fk_mod_type_code, \
         fk_activation_mode_code, fk_variant_code, local_management_id, beacon_nsn, \
-        beacon_part_number, mod_status, notes, pennant_number, aircraft_description, \
+        beacon_part_number, mod_status, note, pennant_number, aircraft_description, \
         survival_craft_type, communications, is_main, create_user_id, create_dt, \
         update_user_id, update_dt, versioning in uses:
     
@@ -47,7 +47,7 @@ def get_uses(beacon_id):
             'beaconNsn': beacon_nsn,
             'beaconPartNumber': beacon_part_number,
             'modStatus': mod_status,
-            'notes': notes,
+            'note': note,
             'pennantNumber': pennant_number,
             'aircraftDescription': aircraft_description,
             'survivalCraftType': survival_craft_type,
