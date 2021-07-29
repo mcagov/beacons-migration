@@ -4,6 +4,7 @@ import requests
 
 from helpers import legacy_database_helper
 from helpers.config_helper import get_config_parser
+from helpers.date_helper import earliest_date, latest_date
 
 GET_ALL_OWNERS_QUERY = "SELECT * FROM BEACON_OWNERS_CLEANED ORDER BY CREATE_DT DESC"
 DROP_OWNER_LOOKUP_TABLE_SQL = """
@@ -104,18 +105,6 @@ def hash_owner(owner):
            f'{hash(owner.get("phone_2"))}-{hash(owner.get("mobile_1"))}-' + \
            f'{hash(owner.get("mobile_2"))}-{hash(owner.get("fax"))}-' + \
            f'{hash(owner.get("email"))}'
-
-
-def earliest_date(dates):
-    filtered_dates = [date for date in dates if date is not None]
-    filtered_dates.sort()
-    return filtered_dates[0]
-
-
-def latest_date(dates):
-    filtered_dates = [date for date in dates if date is not None]
-    filtered_dates.sort()
-    return filtered_dates[-1]
 
 
 def create_owner_lookup_table():
