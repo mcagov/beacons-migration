@@ -7,7 +7,7 @@ def write_to_csv(results):
   directory = "./migration_results/"
   os.makedirs(directory, exist_ok=True)
 
-  filename = datetime.now().isoformat() + ".csv"
+  filename = datetime.now().isoformat().replace(':','-') + ".csv"
 
   print("Writing results to: " + directory + filename)
 
