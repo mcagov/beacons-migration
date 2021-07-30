@@ -75,7 +75,7 @@ def _get_use_rows(beacon_id):
     return query.fetchall()
 
 def _get_use_type(use_type_id):
-    if (use_type_id == None):
+    if (use_type_id is None):
         return use_type_id
     else:
         query = cursor.execute(f"""
@@ -89,7 +89,7 @@ def _get_use_type(use_type_id):
         return use_type_row[0]
 
 def _get_vessel_type(vessel_type_id):
-    if (vessel_type_id == None):
+    if (vessel_type_id is None):
         return vessel_type_id
     else:
         query = cursor.execute(f"""
@@ -103,7 +103,7 @@ def _get_vessel_type(vessel_type_id):
         return vessel_type_row[0]
 
 def _get_aircraft_type(aircraft_type_id):
-    if (aircraft_type_id == None):
+    if (aircraft_type_id is None):
         return aircraft_type_id
     else:
         query = cursor.execute(f"""
@@ -117,7 +117,7 @@ def _get_aircraft_type(aircraft_type_id):
         return aircraft_type_row[0]
 
 def _get_land_use(land_use_id):
-    if (land_use_id == None):
+    if (land_use_id is None):
         return land_use_id
     else:
         query = cursor.execute(f"""

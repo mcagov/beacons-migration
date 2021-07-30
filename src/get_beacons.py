@@ -63,7 +63,7 @@ def _get_beacon_rows():
     # return cursor.fetchall()
 
 def _get_beacon_manufacturer(manufacturer_id):
-    if (manufacturer_id == None):
+    if (manufacturer_id is None):
         return manufacturer_id
     else:
         query = cursor.execute(f"""
@@ -77,7 +77,7 @@ def _get_beacon_manufacturer(manufacturer_id):
         return manufacturer_row[0]
 
 def _get_beacon_type(beacon_type_id):
-    if (beacon_type_id == None):
+    if (beacon_type_id is None):
         return beacon_type_id
     else:
         query = cursor.execute(f"""
@@ -91,7 +91,7 @@ def _get_beacon_type(beacon_type_id):
         return beacon_type_row[0]
 
 def _get_beacon_model(model_id):
-    if (model_id == None):
+    if (model_id is None):
         return model_id
     else:
         query = cursor.execute(f"""
@@ -105,7 +105,7 @@ def _get_beacon_model(model_id):
         return model_row[0]
 
 def _get_beacon_protocol(protocol_id):
-    if (protocol_id == None):
+    if (protocol_id is None):
         return protocol_id
     else:
         query = cursor.execute(f"""
