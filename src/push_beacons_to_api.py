@@ -1,5 +1,6 @@
 from datetime import datetime
 import requests
+import os
 
 import src.get_beacons as get_beacons
 from src.beacon_mapper import get_request_body
@@ -27,6 +28,8 @@ def _post_beacons_to_api(beacons):
     
     _print_results_stats(results)
     write_to_csv(results)
+    os.system('ls -al')
+
 
 def _now():
     return datetime.now()
