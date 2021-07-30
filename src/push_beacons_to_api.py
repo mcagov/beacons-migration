@@ -55,7 +55,7 @@ def _print_results_stats(results):
     success = 0
     failure = 0
     for result in results:
-        if result.get('status') == 201:
+        if result.get('response_code') == 201:
             success += 1
         else:
             failure += 1
