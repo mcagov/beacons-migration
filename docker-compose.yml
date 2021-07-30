@@ -14,7 +14,7 @@ services:
       context: ./
     container_name: etl
     volumes:
-      - ./:/
+      - ./:/usr/python
     environment:
       ENVIRONMENT: ${ENVIRONMENT}
       API_BASIC_AUTH_USERNAME: ${API_BASIC_AUTH_USERNAME}
