@@ -1,7 +1,7 @@
 def get_request_body(beacon):
     return {
-        'type': 'legacyBeacon',
         'data': {
+            'type': 'legacyBeacon',
             'attributes': {
                 'beacon': {
                     'pkBeaconId': beacon.get('pkBeaconId'),

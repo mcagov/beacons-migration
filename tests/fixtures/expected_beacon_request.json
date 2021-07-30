@@ -1,6 +1,6 @@
 {
-  "type": "legacyBeacon",
   "data": {
+    "type": "legacyBeacon",
     "attributes": {
       "beacon": {
         "pkBeaconId": 6062,
