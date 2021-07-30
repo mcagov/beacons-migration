@@ -206,7 +206,7 @@ def _cleanse_owner_row(pk_beacon_owner_id, fk_beacon_id, owner_name, company_nam
         address_1, address_2, address_3, address_4, post_code, country)
 
     valid_uk_postcodes = []
-    if valid_country == 'UNITED KINGDOM' or valid_country == None:
+    if valid_country == 'UNITED KINGDOM' or valid_country is None:
         valid_uk_postcodes = _get_valid_uk_postcode_list_from_fields(
             address_1, address_2, address_3, address_4, post_code, country)
 
