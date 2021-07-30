@@ -66,7 +66,10 @@
       "vesselType": "Pleasure",
       "aircraftType": "None",
       "landUse": "None",
-      "note": "Some notes"
+      "note": "Some notes",
+      "modType": "Place Holder",
+      "activationMode": "Automatic",
+      "modVariant": "Operational"
     },
     {
       "pkBeaconUsesId": 6058,
@@ -109,7 +112,10 @@
       "vesselType": "Pleasure",
       "aircraftType": "None",
       "landUse": "None",
-      "note": "Some more notes"
+      "note": "Some more notes",
+      "modType": "Optional",
+      "activationMode": "Manual",
+      "modVariant": "Training"
     }
   ],
   "owners": [

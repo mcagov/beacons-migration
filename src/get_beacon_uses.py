@@ -61,7 +61,10 @@ def get_uses(beacon_id):
             'useType': _get_use_type(fk_use_type_code),
             'vesselType': _get_vessel_type(fk_vessel_type_id),
             'aircraftType': _get_aircraft_type(fk_aircraft_type_id),
-            'landUse': _get_land_use(fk_land_use_id)
+            'landUse': _get_land_use(fk_land_use_id),
+            'modType': _get_mod_type(fk_mod_type_code),
+            'activationMode': _get_activation_mode(fk_activation_mode_code),
+            'modVariant': _get_mod_variant(fk_variant_code)
         })
 
     return results
@@ -129,3 +132,45 @@ def _get_land_use(land_use_id):
         land_use_row = query.fetchone()
 
         return land_use_row[0]
+
+def _get_mod_type(mod_type_code):
+    if (mod_type_code is None):
+        return mod_type_code
+    else:
+        query = cursor.execute(f"""
+        SELECT DESCRIPTION
+        FROM TREF_BEACON_MOD_TYPES
+        WHERE PK_CODE='{mod_type_code}'
+        """)
+        
+        mod_type_row = query.fetchone()
+
+        return mod_type_row[0]
+
+def _get_activation_mode(activation_mode_code):
+    if (activation_mode_code is None):
+        return activation_mode_code
+    else:
+        query = cursor.execute(f"""
+        SELECT DESCRIPTION
+        FROM TREF_BEACON_ACTIVATION_MODES
+        WHERE PK_CODE='{activation_mode_code}'
+        """)
+        
+        activation_mode_row = query.fetchone()
+
+        return activation_mode_row[0]
+
+def _get_mod_variant(mod_variant_code):
+    if (mod_variant_code is None):
+        return mod_variant_code
+    else:
+        query = cursor.execute(f"""
+        SELECT DESCRIPTION
+        FROM TREF_BEACON_MOD_VARIANT
+        WHERE PK_CODE='{mod_variant_code}'
+        """)
+        
+        mod_variant_row = query.fetchone()
+
+        return mod_variant_row[0]
