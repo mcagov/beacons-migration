@@ -31,6 +31,7 @@ def get_request_body(beacon):
                     'protocol': beacon.get('protocol')
                 },
                 'uses': beacon.get('uses'),
+                'owners': beacon.get('owners'),
                 'emergencyContact': beacon.get('emergencyContact')
             }
         }

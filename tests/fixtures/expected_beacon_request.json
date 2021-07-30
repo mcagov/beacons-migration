@@ -117,6 +117,58 @@
           "note": "Some more notes"
         }
       ],
+      "owners": [
+        {
+          "pkBeaconOwnerId": 231035,
+          "fkBeaconId": 6062,
+          "ownerName": "Mr Beacon",
+          "companyName": "Beacon house",
+          "careOf": "Sideshow beacon",
+          "address1": "Bristol",
+          "address2": "Beacons",
+          "address3": "Beek",
+          "address4": "Me",
+          "country": "UNITED KINGDOM",
+          "postCode": "BS9 6GF",
+          "phone1": "077123456786",
+          "phone2": "077123456787",
+          "mobile1": "077123456788",
+          "mobile2": "077123456789",
+          "fax": "Fax me",
+          "email": "beacons@beacons.com",
+          "isMain": "N",
+          "createUserId": "3748",
+          "createdDate": "2021-07-27 17:15:24",
+          "updateUserId": "3748",
+          "updateDate": "2021-07-27 17:15:24",
+          "versioning": 0
+        },
+        {
+          "pkBeaconOwnerId": 231036,
+          "fkBeaconId": 6062,
+          "ownerName": "Mr Beacon",
+          "companyName": "Bean house",
+          "careOf": "Sideshow bean",
+          "address1": "Bath",
+          "address2": "Beans",
+          "address3": "Been",
+          "address4": "You",
+          "country": "UNITED KINGDOM",
+          "postCode": "BE3 4NS",
+          "phone1": "07123456789",
+          "phone2": "07123456780",
+          "mobile1": "07123456781",
+          "mobile2": "07123456782",
+          "fax": "What is fax",
+          "email": "beans@beans.com",
+          "isMain": "N",
+          "createUserId": "3749",
+          "createdDate": "2021-07-28 17:15:24",
+          "updateUserId": "3749",
+          "updateDate": "2021-07-28 17:15:24",
+          "versioning": 1
+        }
+      ],
       "emergencyContact": {
         "details": "MR BEACON BRIGHT, TEL: +33  608 635 542\n\nMATCOM F TEL: +870 635 681 852   FAX: +870 952 245 948\n\nVessel Email: beacon@my-beaconland.com"
       }

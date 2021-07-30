@@ -1,6 +1,8 @@
-import src.get_beacon_uses as get_beacon_uses
-import src.helpers.date_helper as date_helper
+from src.get_beacon_uses import get_uses
+from src.get_beacon_owners import get_owners
+
 import src.helpers.legacy_database_helper as legacy_database_helper
+import src.helpers.date_helper as date_helper
 
 db_connection = legacy_database_helper.get_db_connection()
 cursor = db_connection.cursor()
@@ -20,7 +22,8 @@ def get_beacons():
         emergency_contact, withdrawn_reason, note, is_archived, create_user_id, \
         create_dt, update_user_id, update_dt, versioning,  in beacons:
 
-        uses = get_beacon_uses.get_uses(pk_beacon_id)
+        uses = get_uses(pk_beacon_id)
+        owners = get_owners(pk_beacon_id)
 
         results.append({
             'pkBeaconId': pk_beacon_id,
@@ -47,7 +50,8 @@ def get_beacons():
                 'details': emergency_contact
             },
             'note': note,
-            'uses': [uses],
+            'uses': uses,
+            'owners': owners,
             'manufacturer': _get_beacon_manufacturer(fk_manufacturer_id),
             'beaconType': _get_beacon_type(fk_beacon_type_code),
             'model': _get_beacon_model(fk_model_code),
