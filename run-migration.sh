@@ -39,7 +39,7 @@ function run_oracle_backups()
 function run_migration()
 {
   echo "Attempting to run the migration"
-  docker-compose up --abort-on-container-exit etl
+  docker-compose up etl
 }
 
 run_oracle_backups
