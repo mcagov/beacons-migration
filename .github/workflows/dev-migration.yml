@@ -25,6 +25,12 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       - name: Run migration
         run: ./run-migration.sh
+      - name: Upload migration results
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: migration-results
+          path: migration_results/
       - name: Stop containers
         if: always()
         run: docker-compose down
