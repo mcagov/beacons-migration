@@ -137,7 +137,7 @@
       "mobile2": "077123456789",
       "fax": "Fax me",
       "email": "beacons@beacons.com",
-      "isMain": "N",
+      "isMain": "Y",
       "createUserId": "3748",
       "createdDate": "2021-07-27 17:15:24",
       "updateUserId": "3748",
@@ -147,7 +147,7 @@
     {
       "pkBeaconOwnerId": 231036,
       "fkBeaconId": 6062,
-      "ownerName": "Mr Beacon",
+      "ownerName": "Mr Bean",
       "companyName": "Bean house",
       "careOf": "Sideshow bean",
       "address1": "Bath",
