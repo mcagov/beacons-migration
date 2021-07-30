@@ -31,6 +31,8 @@ jobs:
         with:
           name: migration-results
           path: migration_results/
+      - name: Check migration_results
+        run: ls -al && ls -al migration_results/
       - name: Stop containers
         if: always()
         run: docker-compose down
