@@ -4,6 +4,7 @@ import src.helpers.date_helper as date_helper
 db_connection = legacy_database_helper.get_db_connection()
 cursor = db_connection.cursor()
 
+
 def get_uses(beacon_id):
     uses = _get_use_rows(beacon_id)
 
@@ -19,7 +20,6 @@ def get_uses(beacon_id):
         beacon_part_number, mod_status, note, pennant_number, aircraft_description, \
         survival_craft_type, communications, is_main, create_user_id, create_dt, \
         update_user_id, update_dt, versioning in uses:
-    
         results.append({
             'pkBeaconUsesId': pk_beacon_uses_id,
             'fkBeaconId': fk_beacon_id,
@@ -69,6 +69,7 @@ def get_uses(beacon_id):
 
     return results
 
+
 def _get_use_rows(beacon_id):
     query = cursor.execute(f"""
         SELECT * FROM BEACON_USES
@@ -77,8 +78,9 @@ def _get_use_rows(beacon_id):
 
     return query.fetchall()
 
+
 def _get_use_type(use_type_id):
-    if (use_type_id is None):
+    if use_type_id is None:
         return use_type_id
     else:
         query = cursor.execute(f"""
@@ -86,13 +88,14 @@ def _get_use_type(use_type_id):
         FROM TREF_BEACON_USE_TYPES
         WHERE PK_CODE='{use_type_id}'
         """)
-        
+
         use_type_row = query.fetchone()
 
         return use_type_row[0]
 
+
 def _get_vessel_type(vessel_type_id):
-    if (vessel_type_id is None):
+    if vessel_type_id is None:
         return vessel_type_id
     else:
         query = cursor.execute(f"""
@@ -100,13 +103,14 @@ def _get_vessel_type(vessel_type_id):
         FROM TREF_BEACON_VESSEL_TYPES
         WHERE PK_ID='{vessel_type_id}'
         """)
-        
+
         vessel_type_row = query.fetchone()
 
         return vessel_type_row[0]
 
+
 def _get_aircraft_type(aircraft_type_id):
-    if (aircraft_type_id is None):
+    if aircraft_type_id is None:
         return aircraft_type_id
     else:
         query = cursor.execute(f"""
@@ -114,13 +118,14 @@ def _get_aircraft_type(aircraft_type_id):
         FROM TREF_BEACON_AIRCRAFT_TYPES
         WHERE PK_ID='{aircraft_type_id}'
         """)
-        
+
         aircraft_type_row = query.fetchone()
 
         return aircraft_type_row[0]
 
+
 def _get_land_use(land_use_id):
-    if (land_use_id is None):
+    if land_use_id is None:
         return land_use_id
     else:
         query = cursor.execute(f"""
@@ -128,13 +133,14 @@ def _get_land_use(land_use_id):
         FROM TREF_BEACON_LAND_USE
         WHERE PK_ID='{land_use_id}'
         """)
-        
+
         land_use_row = query.fetchone()
 
         return land_use_row[0]
 
+
 def _get_mod_type(mod_type_code):
-    if (mod_type_code is None):
+    if mod_type_code is None:
         return mod_type_code
     else:
         query = cursor.execute(f"""
@@ -142,13 +148,14 @@ def _get_mod_type(mod_type_code):
         FROM TREF_BEACON_MOD_TYPES
         WHERE PK_CODE='{mod_type_code}'
         """)
-        
+
         mod_type_row = query.fetchone()
 
         return mod_type_row[0]
 
+
 def _get_activation_mode(activation_mode_code):
-    if (activation_mode_code is None):
+    if activation_mode_code is None:
         return activation_mode_code
     else:
         query = cursor.execute(f"""
@@ -156,13 +163,14 @@ def _get_activation_mode(activation_mode_code):
         FROM TREF_BEACON_ACTIVATION_MODES
         WHERE PK_CODE='{activation_mode_code}'
         """)
-        
+
         activation_mode_row = query.fetchone()
 
         return activation_mode_row[0]
 
+
 def _get_mod_variant(mod_variant_code):
-    if (mod_variant_code is None):
+    if mod_variant_code is None:
         return mod_variant_code
     else:
         query = cursor.execute(f"""
@@ -170,7 +178,7 @@ def _get_mod_variant(mod_variant_code):
         FROM TREF_BEACON_MOD_VARIANT
         WHERE PK_CODE='{mod_variant_code}'
         """)
-        
+
         mod_variant_row = query.fetchone()
 
         return mod_variant_row[0]
