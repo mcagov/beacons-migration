@@ -7,10 +7,12 @@ jobs:
   run_migration:
     name: Run Beacons migration
     runs-on: ubuntu-latest
+    environment: development
+
     env:
       ENVIRONMENT: DEVELOPMENT
-      API_BASIC_AUTH_USERNAME: ${{ secrets.DEV_API_BASIC_AUTH_USERNAME }}
-      API_BASIC_AUTH_PASSWORD: ${{ secrets.DEV_API_BASIC_AUTH_PASSWORD }}
+      API_BASIC_AUTH_USERNAME: ${{ secrets.BASIC_AUTH_USERNAME }}
+      API_BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
 
     steps:
       - name: Checkout repository
