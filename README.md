@@ -20,7 +20,7 @@ Ensure that you have the Oracle DB containing the existing records, and the Beac
 
 Then, from the root of the project run the following:
 
-> pipenv run python etl.py
+> pipenv run python migration.py
 
 ## MAC setup
 
