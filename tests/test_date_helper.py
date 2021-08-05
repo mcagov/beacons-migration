@@ -55,7 +55,7 @@ def test_returns_argument_if_it_is_not_a_datetime():
     assert get_isoformat(not_a_date) == not_a_date
 
 
-def test_returns_argument_if_it_is_not_a_datetime():
+def test_returns_argument_if_it_is_a_datetime():
     date = datetime.now()
     date_as_iso_string = date.isoformat()
 
