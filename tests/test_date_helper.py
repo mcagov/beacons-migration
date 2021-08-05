@@ -45,15 +45,18 @@ def test_returns_the_latest_date_for_multiple_dates():
     before = now - timedelta(1)
     assert latest_date([now, before, now, before]) == now
 
+
 def test_returns_None_if_argument_is_None():
     assert get_isoformat(None) is None
+
 
 def test_returns_argument_if_it_is_not_a_datetime():
     not_a_date = "I am not a date"
     assert get_isoformat(not_a_date) == not_a_date
 
+
 def test_returns_argument_if_it_is_not_a_datetime():
     date = datetime.now()
     date_as_iso_string = date.isoformat()
-    
+
     assert get_isoformat(date) == date_as_iso_string
