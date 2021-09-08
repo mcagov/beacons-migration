@@ -4,18 +4,6 @@ Please see the [Beacons Miro board](https://miro.com/app/board/o9J_lRB60BQ=/) fo
 
 # Running the migration
 
-There are three GitHub Actions pipelines setup to run the migration against the [Development](https://github.com/mcagov/beacons-etl/actions/workflows/dev-migration.yml), [Staging](https://github.com/mcagov/beacons-etl/actions/workflows/staging-migration.yml), and [Production](https://github.com/mcagov/beacons-etl/actions/workflows/production-migration.yml) environments.
-
-Each pipeline will standup the latest backups for the Oracle DB and run the migration against each environment. 
-
-There will be reports uploaded to GitHub where you can inspect the result of the migration run.
-
-The pipelines require secrets for things such as API migration endpoint basic auth username/password. These are stored as secrets [within the repo](https://github.com/mcagov/beacons-etl/settings/secrets/actions) and exposed as environment variables in the migration job in the GitHub Action for each pipeline.
-
-See the GitHub Action yaml files for more information.
-
-## Running the migration locally
-
 Ensure you have authenticated with the AWS ECR registry before running the migration.  See the [1Password vault](https://start.1password.com/open/i?a=WKJEETMC2BAHVAZN37G2IRW54U&v=flhuusyvvrhq3caiuqqxvnlije&i=nrufqva6ejfjljzji4xnvulpj4&h=madetech.1password.com) for more information.
 
 To run the migration locally copy the .env.migration configuration from the [1Password](https://start.1password.com/open/i?a=WKJEETMC2BAHVAZN37G2IRW54U&v=flhuusyvvrhq3caiuqqxvnlije&i=22vzwp3emjfkhjuxmqzfkzcqtu&h=madetech.1password.com) and then run the following:
