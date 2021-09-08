@@ -26,11 +26,17 @@ function wait_for_container_logs()
   fi
 }
 
+function stop_running_containers()
+{
+  echo "Stopping existing running containers"
+  docker compose down
+}
+
 function run_oracle_backups()
 {
   local log_message="Finished importing Beacon backups"
   echo "Standing up Oracle DB backups"
-  docker-compose pull -q oracle-db
+  docker-compose pull oracle-db
   docker-compose up -d oracle-db
 
   wait_for_container_logs "oracle-db" "${log_message}"
@@ -39,8 +45,10 @@ function run_oracle_backups()
 function run_migration()
 {
   echo "Attempting to run the migration"
-  docker-compose up --abort-on-container-exit etl
+  docker-compose up -d etl
+  docker logs -f etl
 }
 
+stop_running_containers
 run_oracle_backups
 run_migration
