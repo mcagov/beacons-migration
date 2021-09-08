@@ -18,6 +18,14 @@ See the GitHub Action yaml files for more information.
 
 Ensure that you have the Oracle DB containing the existing records, and the Beacons API stood up locally.
 
+You can stand up the existing records by either standing up the [Oracle container using the Beacons Oracle GitHub repo](https://github.com/mcagov/beacons-oracle) or run:
+
+> docker compose up oracle-db
+
+This will require you to authenticate with the AWS container registry for the image.  See the [1Password vault](https://start.1password.com/open/i?a=WKJEETMC2BAHVAZN37G2IRW54U&v=flhuusyvvrhq3caiuqqxvnlije&i=nrufqva6ejfjljzji4xnvulpj4&h=madetech.1password.com) for more information.
+
+Ensure you have the correct environment variables set for the username/password to hit the migration endpoints from the [1Password vault](https://start.1password.com/open/i?a=WKJEETMC2BAHVAZN37G2IRW54U&v=flhuusyvvrhq3caiuqqxvnlije&i=2zlsrxttfrhixinwjcsoatzykm&h=madetech.1password.com).
+
 Then, from the root of the project run the following:
 
 > pipenv run python migration.py

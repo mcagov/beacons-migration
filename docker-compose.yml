@@ -15,7 +15,5 @@ services:
     container_name: etl
     volumes:
       - ./:/usr/python
-    environment:
-      ENVIRONMENT: ${ENVIRONMENT:-LOCAL}
-      API_BASIC_AUTH_USERNAME: ${API_BASIC_AUTH_USERNAME}
-      API_BASIC_AUTH_PASSWORD: ${API_BASIC_AUTH_PASSWORD}
+    env_file:
+      - .env.migration
