@@ -45,8 +45,7 @@ function run_oracle_backups()
 function run_migration()
 {
   echo "Attempting to run the migration"
-  docker-compose up -d etl
-  docker logs -f etl
+  docker-compose up --build etl
 }
 
 stop_running_containers

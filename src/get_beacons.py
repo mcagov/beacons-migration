@@ -11,6 +11,8 @@ GET_ALL_BEACONS_QUERY = "SELECT * FROM BEACONS"
 
 
 def get_beacons():
+    print("Getting beacons - could take some time...")
+
     results = []
 
     beacons = _get_beacon_rows()
