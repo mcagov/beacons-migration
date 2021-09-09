@@ -15,5 +15,7 @@ services:
     container_name: etl
     volumes:
       - ./:/usr/python
+    environment:
+      - PYTHONUNBUFFERED=1
     env_file:
       - .env.migration
