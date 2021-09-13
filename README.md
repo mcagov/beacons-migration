@@ -2,14 +2,6 @@
 
 Please see the [Beacons Miro board](https://miro.com/app/board/o9J_lRB60BQ=/) for more information on the migration.
 
-# Running the migration
-
-Ensure you have authenticated with the AWS ECR registry before running the migration.  See the [1Password vault](https://start.1password.com/open/i?a=WKJEETMC2BAHVAZN37G2IRW54U&v=flhuusyvvrhq3caiuqqxvnlije&i=nrufqva6ejfjljzji4xnvulpj4&h=madetech.1password.com) for more information.
-
-To run the migration locally copy the .env.migration configuration from the [1Password](https://start.1password.com/open/i?a=WKJEETMC2BAHVAZN37G2IRW54U&v=flhuusyvvrhq3caiuqqxvnlije&i=22vzwp3emjfkhjuxmqzfkzcqtu&h=madetech.1password.com) and then run the following:
-
-> ./run-migration.sh
-
 ## MAC setup
 
 Ensure python 3.5+ is installed
@@ -38,6 +30,28 @@ To download the instantclient go to:
 - Run `pipenv run python run_cleansing_rules.py`
 
 **NOTE: When you run this for the first time macOS cannot verify the client files. You will have to open up: System Preferences > Security & Privacy and allow access to the files that cx_Oracle requires**
+
+## Running the migration
+
+To run the migration locally copy the .env configuration from the [1Password](https://start.1password.com/open/i?a=WKJEETMC2BAHVAZN37G2IRW54U&v=flhuusyvvrhq3caiuqqxvnlije&i=22vzwp3emjfkhjuxmqzfkzcqtu&h=madetech.1password.com) for the environment you want to run it against.
+
+### Without Docker :x: :whale:
+
+Standup a local Oracle DB instance ([information above](#connecting-to-the-oracle-db))
+
+Ensure `oracle_uri` in  your config (`config.ini`) is set to `localhost`
+
+Run:
+> pipenv run python migration.py
+
+### With Docker :white_check_mark: :whale: (:snail:)
+
+This method requires less set up, but currently it runs very slowly and only gets around 9000 records migrated before it stops.
+
+Ensure you have authenticated with the AWS ECR registry.  See the [1Password vault](https://start.1password.com/open/i?a=WKJEETMC2BAHVAZN37G2IRW54U&v=flhuusyvvrhq3caiuqqxvnlije&i=nrufqva6ejfjljzji4xnvulpj4&h=madetech.1password.com) for more information.
+
+Run:
+> ./run-migration.sh
 
 ## Running Unit Tests
 

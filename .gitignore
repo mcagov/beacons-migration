@@ -8,3 +8,4 @@ safe_aggregates.csv
 bulk_csv
 migration_results
 .env.migration
+.env
