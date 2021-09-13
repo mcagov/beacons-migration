@@ -59,7 +59,9 @@ def get_beacons():
             'manufacturer': _get_beacon_manufacturer(fk_manufacturer_id),
             'beaconType': _get_beacon_type(fk_beacon_type_code),
             'model': _get_beacon_model(fk_model_code),
-            'protocol': _get_beacon_protocol(fk_protocol_type_id)
+            'protocol': _get_beacon_protocol(fk_protocol_type_id),
+            'mti': _get_beacon_mti(fk_mti_code),
+            'csta': _get_csta_code(fk_csta_code)
         })
 
     return results
@@ -114,7 +116,6 @@ def _get_beacon_model(model_id):
 
         return model_row[0]
 
-
 def _get_beacon_protocol(protocol_id):
     if protocol_id is None:
         return protocol_id
@@ -128,3 +129,32 @@ def _get_beacon_protocol(protocol_id):
         protocol_row = query.fetchone()
 
         return protocol_row[0]
+        
+
+def _get_beacon_mti(mti_id):
+    if mti_id is None:
+        return mti_id
+    else:
+        query = cursor.execute(f"""
+        SELECT DESCRIPTION
+        FROM TREF_BEACON_MTI
+        WHERE PK_CODE='{mti_id}'
+        """)
+
+        mti_row = query.fetchone()
+
+        return mti_row[0]
+
+def _get_csta_code(csta_id):
+    if csta_id is None:
+        return csta_id
+    else:
+        query = cursor.execute(f"""
+        SELECT DESCRIPTION
+        FROM TREF_BEACON_CSTA
+        WHERE PK_CODE='{csta_id}'
+        """)
+
+        csta_row = query.fetchone()
+
+        return csta_row[0]
