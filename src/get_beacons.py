@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from src.get_beacon_uses import get_uses
 from src.get_beacon_owners import get_main_owner, get_secondary_owners
 
@@ -14,6 +16,7 @@ def get_beacons():
     print("Getting beacons - could take some time...")
 
     results = []
+    count = 0
 
     beacons = _get_beacon_rows()
 
@@ -63,7 +66,13 @@ def get_beacons():
             'mti': _get_beacon_mti(fk_mti_code),
             'csta': _get_csta_code(fk_csta_code)
         })
+        
+        count += 1
 
+        if (count % 10000 == 0):
+            print(f"We've got {count} beacons {datetime.now()}")
+
+    print("We've got all ", count, " beacons!")
     return results
 
 

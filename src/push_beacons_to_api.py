@@ -26,7 +26,7 @@ def _post_beacons_to_api(beacons):
         request_body = get_request_body(beacon)
         _post_beacon(request_body, results)
         count +=1
-        if count % 1000 == 0:
+        if count % 10000 == 0:
             print(f'Sent {count} beacons to the API {_now()}')
 
     _print_results_stats(results)
