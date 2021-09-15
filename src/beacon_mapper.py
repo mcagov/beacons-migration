@@ -28,7 +28,9 @@ def get_request_body(beacon):
                     'manufacturer': beacon.get('manufacturer'),
                     'beaconType': beacon.get('beaconType'),
                     'model': beacon.get('model'),
-                    'protocol': beacon.get('protocol')
+                    'protocol': beacon.get('protocol'),
+                    'mti': beacon.get('mti'),
+                    'csta': beacon.get('csta')
                 },
                 'uses': beacon.get('uses'),
                 'owner': beacon.get('owner'),
