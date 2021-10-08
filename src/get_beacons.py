@@ -9,7 +9,7 @@ import src.helpers.date_helper as date_helper
 db_connection = legacy_database_helper.get_db_connection()
 cursor = db_connection.cursor()
 
-GET_ALL_BEACONS_QUERY = "SELECT * FROM BEACONS"
+GET_ALL_ACTIVE_BEACONS_QUERY = "SELECT * FROM BEACONS WHERE IS_WITHDRAWN = 'N' AND IS_ARCHIVED = 'N' AND DEPART_REF_ID != 'WD2005/10' AND DEPART_REF_ID != 'WD2005/10'"
 
 
 def get_beacons():
@@ -77,9 +77,9 @@ def get_beacons():
 
 
 def _get_beacon_rows():
-    cursor.execute(GET_ALL_BEACONS_QUERY)
+    cursor.execute(GET_ALL_ACTIVE_BEACONS_QUERY)
     return cursor.fetchall()
-
+    
 
 def _get_beacon_manufacturer(manufacturer_id):
     if manufacturer_id is None:
